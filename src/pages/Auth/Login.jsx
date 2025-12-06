@@ -1,14 +1,40 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const [eye, setEye] = useState(true);
   const { signInUser, googleLogin } = useAuth();
+  const navigate = useNavigate()
+
+  const { register, handleSubmit } = useForm();
 
   const handleGoogleLogin = () => {
-    googleLogin().then((result) => {
-      console.log(result.user);
-    });
+    googleLogin()
+      .then(() => {
+        // console.log(result.user);
+        navigate('/')
+        toast.success("Successfully Login");
+      })
+      .catch((err) => { 
+      toast.error(err.message)
+     })
+  };
+
+  const handleSignIn = (data) => {
+    // console.log(data);
+    const { email, password } = data;
+    signInUser(email, password)
+      .then(() => { 
+        toast.success('Successfully Login')
+        navigate('/')
+      })
+      .catch((err) => { 
+      toast.error(err.message)
+     })
   };
 
   return (
@@ -24,7 +50,10 @@ const Login = () => {
         </div>
 
         {/* Card */}
-        <form className="relative z-10 p-6 -mt-24 border shadow-md bg-base-100 rounded-2xl border-primary/10 backdrop-blur-lg">
+        <form
+          onSubmit={handleSubmit(handleSignIn)}
+          className="relative z-10 p-6 -mt-24 border shadow-md bg-base-100 rounded-2xl border-primary/10 backdrop-blur-lg"
+        >
           {/* Title */}
           <div className="mb-10">
             <h1 className="text-3xl font-bold text-primary">Log In</h1>
@@ -38,48 +67,30 @@ const Login = () => {
             {/* Email */}
             <div className="relative flex items-center">
               <input
-                name="email"
+                {...register("email")}
                 type="email"
                 required
                 className="w-full px-2 py-3 pr-8 text-sm transition border-b outline-none text-neutral border-neutral/20 focus:border-primary"
                 placeholder="Enter email"
               />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#aaa"
-                stroke="#aaa"
-                className="w-[18px] h-[18px] absolute right-2"
-                viewBox="0 0 682.667 682.667"
-              >
-                <g transform="matrix(1.33 0 0 -1.33 0 682.667)">
-                  <path
-                    fill="none"
-                    strokeMiterlimit="10"
-                    strokeWidth="40"
-                    d="M452 444H60c-22.091 0-40-17.909-40-40v-39.446l212.127-157.782c14.17-10.54 33.576-10.54 47.746 0L492 364.554V404c0 22.091-17.909 40-40 40Z"
-                  ></path>
-                </g>
-              </svg>
             </div>
 
             {/* Password */}
             <div className="relative flex items-center">
               <input
-                name="password"
-                type="password"
+                {...register("password")}
+                type={eye ? "password" : "text"}
                 required
                 className="w-full px-2 py-3 pr-8 text-sm transition border-b outline-none text-neutral border-neutral/20 focus:border-primary"
                 placeholder="Enter password"
               />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#aaa"
-                stroke="#aaa"
-                className="w-[18px] h-[18px] absolute right-2 cursor-pointer"
-                viewBox="0 0 128 128"
+              <button
+                type="button"
+                onClick={() => setEye(!eye)}
+                className="absolute cursor-pointer right-2 text-neutral"
               >
-                <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104z" />
-              </svg>
+                {eye ? <Eye size={18} /> : <EyeOff size={18} />}
+              </button>
             </div>
 
             {/* Forgot Password */}
@@ -92,10 +103,7 @@ const Login = () => {
 
           {/* Login Button */}
           <div className="mt-10">
-            <button
-              type="button"
-              className="w-full py-2 font-medium text-white transition rounded-md shadow-lg cursor-pointer bg-primary hover:bg-primary/90 shadow-primary/30"
-            >
+            <button className="w-full py-2 font-medium text-white transition rounded-md shadow-lg cursor-pointer bg-primary hover:bg-primary/90 shadow-primary/30">
               Sign in
             </button>
 
