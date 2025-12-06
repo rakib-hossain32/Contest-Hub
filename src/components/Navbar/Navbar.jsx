@@ -14,7 +14,7 @@ import { NavLink, useNavigate,  } from "react-router"; // React Router use korle
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 import useAuth from "../../hooks/useAuth";
-import { Loader1 } from "../Loader/Loader";
+import { Loader,  } from "../Loader/Loader";
 import NavItem from "./NavItem";
 
 export default function Navbar() {
@@ -37,11 +37,11 @@ export default function Navbar() {
   };
 
   if (loading) {
-    return <Loader1 />;
+    return <Loader />;
   }
 
   return (
-    <nav className="sticky z-30 px-2 mx-2 rounded-lg shadow top-2 md:px-6 lg:px-8 backdrop-blur-2xl backdrop-saturate-200 bg-base-100/80">
+    <nav className="sticky z-30 px-2 mx-auto rounded-lg shadow top-2 md:px-6 lg:px-8 backdrop-blur-2xl backdrop-saturate-200 bg-base-100/80 max-w-7xl">
       <div className="relative flex items-center justify-between h-16">
         {/* Mobile Menu Button */}
         <div className="flex items-center ">

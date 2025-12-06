@@ -104,7 +104,7 @@ const Login = () => {
           {/* Login Button */}
           <div className="mt-10">
             <button className="w-full py-2 font-medium text-white transition rounded-md shadow-lg cursor-pointer bg-primary hover:bg-primary/90 shadow-primary/30">
-              Sign in
+              LogIn
             </button>
 
             <p className="mt-6 text-sm text-center text-neutral/70">
