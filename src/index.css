@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+
+  /* Main Colors */
+  --color-primary: #1D4ED8;     /* Royal Blue */
+  --color-secondary: #8B5CF6;   /* Electric Purple */
+  --color-accent: #10B981;      /* Emerald Green */
+  --color-neutral: #111827;     /* Charcoal Gray */
+  --color-base-100: #F9FAFB;    /* Cool White */
+
+  /* Feedback Colors */
+  --color-info: #3B82F6;        /* Info / highlights */
+  --color-success: #10B981;     /* Success messages / winner */
+  --color-warning: #F59E0B;     /* Prize / badges */
+  --color-error: #EF4444;       /* Error / alerts */
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+
+  /* Main Colors */
+  --color-primary: #ADD8E6;     /* Dark Royal Blue */
+  --color-secondary: #6D28D9;   /* Dark Purple */
+  --color-accent: #047857;      /* Dark Green */
+  --color-neutral: #F9FAFB;     /* Dark Gray / text */
+  --color-base-100: #111827;    /* Dark background */
+
+  /* Feedback Colors */
+  --color-info: #2563EB;        /* Info highlights */
+  --color-success: #047857;     /* Success / winner */
+  --color-warning: #B45309;     /* Prize / badges */
+  --color-error: #B91C1C;       /* Error / alerts */
+}
+
+* {
+  font-family: "Urbanist", sans-serif;
+}
