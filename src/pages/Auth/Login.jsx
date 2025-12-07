@@ -1,28 +1,31 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
+import SocialLogin from "./SocialLogin/SocialLogin";
 
 const Login = () => {
   const [eye, setEye] = useState(true);
-  const { signInUser, googleLogin } = useAuth();
+  const { signInUser,  } = useAuth();
   const navigate = useNavigate()
 
   const { register, handleSubmit } = useForm();
+  const location = useLocation()
+  console.log(location)
 
-  const handleGoogleLogin = () => {
-    googleLogin()
-      .then(() => {
-        // console.log(result.user);
-        navigate('/')
-        toast.success("Successfully Login");
-      })
-      .catch((err) => { 
-      toast.error(err.message)
-     })
-  };
+  // const handleGoogleLogin = () => {
+  //   googleLogin()
+  //     .then(() => {
+  //       // console.log(result.user);
+  //       navigate(location.state || '/')
+  //       toast.success("Successfully Login");
+  //     })
+  //     .catch((err) => { 
+  //     toast.error(err.message)
+  //    })
+  // };
 
   const handleSignIn = (data) => {
     // console.log(data);
@@ -30,7 +33,7 @@ const Login = () => {
     signInUser(email, password)
       .then(() => { 
         toast.success('Successfully Login')
-        navigate('/')
+        navigate(location.state || "/");
       })
       .catch((err) => { 
       toast.error(err.message)
@@ -110,6 +113,7 @@ const Login = () => {
             <p className="mt-6 text-sm text-center text-neutral/70">
               Don’t have an account?
               <Link
+                state={location.state}
                 to="/auth/register"
                 className="ml-1 font-medium cursor-pointer text-secondary hover:underline"
               >
@@ -119,20 +123,7 @@ const Login = () => {
           </div>
 
           <hr className="my-6 border-neutral/20" />
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="w-full mt-5  py-2.5 rounded-lg flex items-center justify-center gap-3 bg-base-100 hover:bg-base-100 transition shadow-md cursor-pointer hover:scale-105"
-          >
-            <img
-              src="https://www.svgrepo.com/show/355037/google.svg"
-              alt="Google"
-              className="w-5 h-5"
-            />
-            <span className="font-medium text-neutral">
-              Sign up with Google
-            </span>
-          </button>
+          <SocialLogin/>
         </form>
       </div>
     </div>

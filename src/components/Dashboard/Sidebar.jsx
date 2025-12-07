@@ -4,35 +4,77 @@ import {
   User,
   LogOut,
   LayoutDashboard,
+  PlusCircle,
+  Users,
+  Menu,
+  Search,
+  Bell,
+  Mail,
+  Edit,
+  Trash2,
+  Eye,
+  CheckCircle,
+  XCircle,
+  Clock,
+  ChevronLeft,
+  Calendar as CalendarIcon,
+  DollarSign,
+  FileText,
 } from "lucide-react";
-import { Link, useLocation } from "react-router"; // react-router-dom ব্যবহার করলে সেটি ইমপোর্ট করুন
+import { Link, useLocation } from "react-router";
+import useRole from "../../hooks/useRole";
 
 export const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
+  const { role } = useRole();
+  console.log(role);
 
-  const menuItems = [
-    {
-      name: "Dashboard",
-      icon: LayoutDashboard,
-      path: "/dashboard",
-    },
-    {
-      name: "My Participated Contests",
-      icon: ListOrdered,
-      path: "/dashboard/participated",
-    },
-    {
-      name: "My Winning Contests",
-      icon: Trophy,
-      path: "/dashboard/winning",
-    },
-    {
-      name: "My Profile",
-      icon: User,
-      path: "/dashboard/profile",
-    },
-    // { name: "Settings", icon: Settings, path: "/dashboard/settings" },
-  ];
+  const menuItems =
+    role === "user"
+      ? [
+          {
+            name: "My Participated Contests",
+            icon: ListOrdered,
+            path: "/dashboard/participated",
+          },
+          {
+            name: "My Winning Contests",
+            icon: Trophy,
+            path: "/dashboard/winning",
+          },
+          {
+            name: "My Profile",
+            icon: User,
+            path: "/dashboard/profile",
+          },
+        ]
+      : role === "creator"
+      ? [
+          {
+            name: "Creator Dashboard",
+            icon: LayoutDashboard,
+            path: "/dashboard",
+          },
+          {
+            name: "Add Contest",
+            icon: PlusCircle,
+            path: "/dashboard/add-contest",
+          },
+          {
+            name: "My Created Contests",
+            icon: ListOrdered,
+            path: "/dashboard/my-contests",
+          },
+        ]
+      : [
+          { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+          { name: "Manage Users", icon: Users, path: "/dashboard/users" },
+          {
+            name: "Manage Contests",
+            icon: Trophy,
+            path: "/dashboard/contests",
+          },
+        ];
 
   const isActive = (path) => {
     // Exact match for root dashboard, startsWith for sub-routes
@@ -82,7 +124,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
 
           {/* Menu Items */}
           <div className="flex-1 px-4 pb-6 space-y-1">
-            {menuItems.map((item) => {
+            {menuItems?.map((item) => {
               const active = isActive(item.path);
               return (
                 <Link

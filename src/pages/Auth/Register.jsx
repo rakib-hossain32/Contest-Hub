@@ -1,48 +1,64 @@
 import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import SocialLogin from "./SocialLogin/SocialLogin";
 
 const Register = () => {
   const [eye, setEye] = useState(true);
-  const { createUser, updateUser,  googleLogin } = useAuth();
-  const navigate = useNavigate()
+  const { createUser, updateUser,  } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
-  const {
-    handleSubmit,
-    register,
-    
-  } = useForm();
+  const { handleSubmit, register } = useForm();
 
-   const handleGoogleLogin = () => {
-      googleLogin()
-        .then(() => {
-          // console.log(result.user);
-          navigate('/')
-          toast.success("Successfully Login");
-        })
-        .catch((err) => { 
-        toast.error(err.message)
-       })
-    };
+  const location = useLocation();
+  // console.log(location)
+
+  // const handleGoogleLogin = () => {
+  //   googleLogin()
+  //     .then((result) => {
+  //       // console.log(result.user);
+  //       navigate(location.state || "/");
+  //       toast.success("Successfully Login");
+  //       const { displayName, email, photoURL } = result.user;
+
+  //       const userInfo = {
+  //         displayName,
+  //         email,
+  //         photoURL,
+  //       };
+  //       axiosSecure.post("/users", userInfo);
+  //     })
+  //     .catch((err) => {
+  //       toast.error(err.message);
+  //     });
+  // };
 
   const handleRegister = (data) => {
     console.log(data);
     const { name, email, password, photoURL } = data;
 
     createUser(email, password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
+        // console.log(result.user);
+        const userInfo = {
+          displayName: name,
+          email,
+          photoURL,
+        };
+        axiosSecure.post("/users", userInfo);
         updateUser(name, photoURL)
           .then(() => {
-          navigate('/')
+            navigate(location.state || "/");
+            toast.success("Successfully Create Account");
           })
-          .catch((error) => { 
-          toast.error(error.message);
-         })
-        
+          .catch((error) => {
+            toast.error(error.message);
+          });
       })
       .catch((error) => {
         toast.error(error.message);
@@ -195,20 +211,7 @@ const Register = () => {
           </div>
 
           <hr className="my-6 border-neutral/20" />
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="w-full mt-5  py-2.5 rounded-lg flex items-center justify-center gap-3 bg-base-100 hover:bg-base-100 transition shadow-md cursor-pointer hover:scale-105"
-          >
-            <img
-              src="https://www.svgrepo.com/show/355037/google.svg"
-              alt="Google"
-              className="w-5 h-5"
-            />
-            <span className="font-medium text-neutral">
-              Sign up with Google
-            </span>
-          </button>
+          <SocialLogin/>
         </form>
       </div>
     </div>

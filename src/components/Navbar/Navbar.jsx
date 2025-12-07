@@ -15,7 +15,7 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import useAuth from "../../hooks/useAuth";
 import { Loader } from "../Loader/Loader";
 import NavItem from "./NavItem";
-import logo from '../../assets/logo.png'
+import logo from '../../assets/logo2.png'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);

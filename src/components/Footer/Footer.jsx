@@ -12,6 +12,9 @@ import {
   ShieldCheck,
   Send,
 } from "lucide-react";
+import logo from '../../../public/logo3.png'
+import { Link } from "react-router";
+
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -65,10 +68,14 @@ export default function Footer() {
               viewport={{ once: true }}
               className="flex items-center gap-2"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-[#1D4ED8] to-[#10B981] rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20">
-                <span className="text-xl font-bold text-white">C</span>
+              <div className="flex items-center justify-center h-15 w-15 ">
+                {/* <span className="text-xl font-bold text-white">C</span> */}
+                <Link to='/'>
+                  <img src={logo} alt="" />
+                </Link>
               </div>
-              <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+
+              <span className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-white to-gray-400">
                 ContestHub
               </span>
             </motion.div>
@@ -124,7 +131,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="w-full h-px mb-16 bg-gradient-to-r from-transparent via-gray-800 to-transparent"></div>
+        <div className="w-full h-px mb-16 bg-linear-to-r from-transparent via-gray-800 to-transparent"></div>
 
         {/* --- Middle Section: Links Grid --- */}
         <div className="grid grid-cols-2 gap-8 mb-16 md:grid-cols-4 lg:gap-12">
