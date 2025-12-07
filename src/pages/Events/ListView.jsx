@@ -23,9 +23,9 @@ export const ListView = ({ events, getCategoryColor, onDetails }) => {
         return (
           <div
             key={event.id}
-            className={`flex flex-col md:flex-row items-center bg-white p-5 rounded-xl shadow-sm border ${
+            className={`flex flex-col md:flex-row items-center bg-base-100 p-5 rounded-xl shadow-sm border  ${
               isPast
-                ? "border-gray-100 bg-gray-50"
+                ? "border-gray-100 bg-base-200"
                 : "border-gray-200 hover:border-blue-300 hover:shadow-md"
             } transition-all gap-6 group`}
           >
@@ -61,7 +61,7 @@ export const ListView = ({ events, getCategoryColor, onDetails }) => {
               </div>
               <h3
                 className={`text-lg font-bold ${
-                  isPast ? "text-gray-500" : "text-[#111827]"
+                  isPast ? "text-gray-500" : "text-neutral"
                 }`}
               >
                 {event.title}
@@ -73,7 +73,7 @@ export const ListView = ({ events, getCategoryColor, onDetails }) => {
 
             {/* Action */}
             <button
-              onClick={() => onDetails(event.id)}
+              // onClick={() => onDetails(event.id)}
               disabled={isPast}
               className={`px-6 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 transition-all ${
                 isPast

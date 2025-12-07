@@ -98,7 +98,7 @@ export default function ContestDetails() {
   // --- Auth Guard View ---
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#F9FAFB] text-center p-6">
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <div className="max-w-md p-8 bg-white shadow-xl rounded-2xl">
           <ShieldCheck size={64} className="mx-auto text-[#1D4ED8] mb-4" />
           <h2 className="text-2xl font-bold text-[#111827] mb-2">Access Restricted</h2>
@@ -115,49 +115,69 @@ export default function ContestDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] pb-20">
-      
+    <div className="min-h-screen pb-20 mt-2">
       {/* --- 1. Hero Banner --- */}
       <div className="relative h-[40vh] w-full overflow-hidden">
-        <img src={contest.banner} alt="Banner" className="object-cover w-full h-full" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/60 to-transparent"></div>
-        
+        <img
+          src={contest.banner}
+          alt="Banner"
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute inset-0 bg-linear-to-t from-[#111827] via-[#111827]/60 to-transparent"></div>
+
         <div className="container absolute bottom-0 left-0 w-full p-6 mx-auto md:p-12">
           {/* Winner Badge (Conditional) */}
           {contest.winner && (
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               className="inline-flex items-center gap-3 p-2 pr-6 mb-4 border rounded-full bg-yellow-500/20 backdrop-blur-md border-yellow-500/50"
             >
-              <img src={contest.winner.photo} alt="Winner" className="w-10 h-10 border-2 border-yellow-400 rounded-full" />
+              <img
+                src={contest.winner.photo}
+                alt="Winner"
+                className="w-10 h-10 border-2 border-yellow-400 rounded-full"
+              />
               <div>
-                <p className="text-xs font-bold tracking-wider text-yellow-400 uppercase">Winner Declared</p>
-                <p className="font-semibold text-white">{contest.winner.name}</p>
+                <p className="text-xs font-bold tracking-wider text-yellow-400 uppercase">
+                  Winner Declared
+                </p>
+                <p className="font-semibold text-white">
+                  {contest.winner.name}
+                </p>
               </div>
               <Trophy className="ml-auto text-yellow-400" size={24} />
             </motion.div>
           )}
 
-          <h1 className="mb-2 text-3xl font-bold text-white md:text-5xl">{contest.name}</h1>
+          <h1 className="mb-2 text-3xl font-bold text-white md:text-5xl">
+            {contest.name}
+          </h1>
           <div className="flex flex-wrap items-center gap-6 text-sm text-gray-300 md:text-base">
-            <span className="flex items-center gap-2"><Users size={18} className="text-[#8B5CF6]" /> {contest.participants} Participants</span>
-            <span className="flex items-center gap-2"><DollarSign size={18} className="text-[#10B981]" /> Entry Fee: {contest.entryFee}</span>
+            <span className="flex items-center gap-2">
+              <Users size={18} className="text-[#8B5CF6]" />{" "}
+              {contest.participants} Participants
+            </span>
+            <span className="flex items-center gap-2">
+              <DollarSign size={18} className="text-[#10B981]" /> Entry Fee:{" "}
+              {contest.entryFee}
+            </span>
           </div>
         </div>
       </div>
 
       {/* --- 2. Main Layout --- */}
       <div className="container grid grid-cols-1 gap-8 px-4 py-8 mx-auto md:px-6 lg:grid-cols-3">
-        
         {/* Left Column: Details (2/3 width) */}
         <div className="space-y-8 lg:col-span-2">
-          
           {/* Tabs / Description */}
-          <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl md:p-8">
-            <h2 className="text-2xl font-bold text-[#111827] mb-6 border-b pb-4 border-gray-100">Contest Details</h2>
-            
+          <div className="p-6 border border-gray-100 shadow-sm bg-base-100 rounded-2xl md:p-8">
+            <h2 className="pb-4 mb-6 text-2xl font-bold border-b border-gray-100 text-neutral">
+              Contest Details
+            </h2>
+
             {/* HTML Content Render */}
-            <div 
+            <div
               className="leading-relaxed prose text-gray-600 prose-blue max-w-none"
               dangerouslySetInnerHTML={{ __html: contest.description }}
             />
@@ -166,40 +186,48 @@ export default function ContestDetails() {
 
         {/* Right Column: Stats & Actions (1/3 width) */}
         <div className="space-y-6 lg:col-span-1">
-          
           {/* Prize Card */}
-          <div className="bg-gradient-to-br from-[#10B981] to-[#059669] rounded-2xl p-6 text-white shadow-lg text-center relative overflow-hidden">
+          <div className="bg-linear-to-br from-[#10B981] to-[#059669] rounded-2xl p-6 text-white shadow-lg text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 -mt-16 -mr-16 bg-white rounded-full opacity-10 blur-2xl"></div>
             <Trophy size={48} className="mx-auto mb-2 text-white/90" />
-            <p className="text-sm font-medium tracking-wider uppercase text-white/80">Grand Prize</p>
+            <p className="text-sm font-medium tracking-wider uppercase text-white/80">
+              Grand Prize
+            </p>
             <h3 className="mt-1 text-4xl font-extrabold">{contest.prize}</h3>
           </div>
 
           {/* Status & Timer Card */}
-          <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
+          <div className="p-6 border border-gray-100 shadow-sm bg-base-100 rounded-2xl">
             <h4 className="flex items-center gap-2 mb-4 font-medium text-gray-500">
               <Clock size={18} /> Time Remaining
             </h4>
-            
-            <div className={`text-center py-4 rounded-xl font-mono text-2xl md:text-3xl font-bold ${isEnded ? 'bg-gray-100 text-gray-500' : 'bg-red-50 text-red-600'}`}>
+
+            <div
+              className={`text-center py-4 rounded-xl font-mono text-2xl md:text-3xl font-bold ${
+                isEnded ? "bg-gray-100 text-gray-500" : "bg-red-50 text-red-600"
+              }`}
+            >
               {timeLeft}
             </div>
 
             <div className="mt-6 space-y-3">
               {/* Logic for Buttons */}
               {isEnded ? (
-                <button disabled className="w-full py-3.5 bg-gray-200 text-gray-500 font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-2">
+                <button
+                  disabled
+                  className="w-full py-3.5 bg-gray-200 text-gray-500 font-bold rounded-xl cursor-not-allowed flex items-center justify-center gap-2"
+                >
                   <AlertCircle size={20} /> Contest Ended
                 </button>
               ) : isRegistered ? (
-                <button 
+                <button
                   onClick={() => setIsModalOpen(true)}
                   className="w-full py-3.5 bg-[#1D4ED8] hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
                 >
                   <Upload size={20} /> Submit Task
                 </button>
               ) : (
-                <button 
+                <button
                   onClick={handleRegister}
                   className="w-full py-3.5 bg-[#10B981] hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition-all flex items-center justify-center gap-2"
                 >
@@ -209,22 +237,40 @@ export default function ContestDetails() {
 
               {/* Status Hint */}
               <div className="mt-2 text-xs text-center text-gray-400">
-                {isRegistered 
-                  ? "You are registered. Good luck!" 
-                  : isEnded 
-                    ? "Registration is closed." 
-                    : "Secure payment via Stripe/SSL"}
+                {isRegistered
+                  ? "You are registered. Good luck!"
+                  : isEnded
+                  ? "Registration is closed."
+                  : "Secure payment via Stripe/SSL"}
               </div>
             </div>
           </div>
 
           {/* Rules / Extra Info */}
-          <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
-            <h4 className="font-bold text-[#111827] mb-4">Quick Rules</h4>
+          <div className="p-6 border border-gray-100 shadow-sm bg-base-100 rounded-2xl">
+            <h4 className="mb-4 font-bold text-neutral">Quick Rules</h4>
             <ul className="space-y-3 text-sm text-gray-600">
-              <li className="flex gap-2"><CheckCircle size={16} className="text-[#10B981] flex-shrink-0" /> Original work only.</li>
-              <li className="flex gap-2"><CheckCircle size={16} className="text-[#10B981] flex-shrink-0" /> Submit before deadline.</li>
-              <li className="flex gap-2"><CheckCircle size={16} className="text-[#10B981] flex-shrink-0" /> Follow the design brief.</li>
+              <li className="flex gap-2">
+                <CheckCircle
+                  size={16}
+                  className="text-[#10B981] shrink-0"
+                />{" "}
+                Original work only.
+              </li>
+              <li className="flex gap-2">
+                <CheckCircle
+                  size={16}
+                  className="text-[#10B981] shrink-0"
+                />{" "}
+                Submit before deadline.
+              </li>
+              <li className="flex gap-2">
+                <CheckCircle
+                  size={16}
+                  className="text-[#10B981] shrink-0"
+                />{" "}
+                Follow the design brief.
+              </li>
             </ul>
           </div>
         </div>
@@ -234,19 +280,21 @@ export default function ContestDetails() {
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setIsModalOpen(false)}
             />
-            
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }} 
-              animate={{ scale: 1, opacity: 1, y: 0 }} 
+
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative z-10 w-full max-w-lg p-6 bg-white shadow-2xl rounded-2xl md:p-8"
+              className="relative z-10 w-full max-w-lg p-6 shadow-2xl bg-base-100 rounded-2xl md:p-8"
             >
-              <button 
+              <button
                 onClick={() => setIsModalOpen(false)}
                 className="absolute p-2 text-gray-400 transition rounded-full top-4 right-4 hover:text-gray-600 hover:bg-gray-100"
               >
@@ -257,8 +305,13 @@ export default function ContestDetails() {
                 <div className="w-14 h-14 bg-blue-100 text-[#1D4ED8] rounded-full flex items-center justify-center mx-auto mb-3">
                   <Upload size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-[#111827]">Submit Your Work</h3>
-                <p className="text-sm text-gray-500">Paste your project links (Google Drive, Figma, GitHub, etc.) below.</p>
+                <h3 className="text-2xl font-bold text-neutral">
+                  Submit Your Work
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Paste your project links (Google Drive, Figma, GitHub, etc.)
+                  below.
+                </p>
               </div>
 
               <form onSubmit={handleSubmitTask}>
@@ -267,19 +320,19 @@ export default function ContestDetails() {
                   value={submissionLink}
                   onChange={(e) => setSubmissionLink(e.target.value)}
                   placeholder="Example: https://figma.com/file/xyz..."
-                  className="w-full h-32 p-4 rounded-xl border border-gray-200 focus:border-[#1D4ED8] focus:ring-2 focus:ring-blue-100 outline-none resize-none text-gray-700 bg-gray-50 mb-6"
+                  className="w-full h-32 p-4 rounded-xl border border-gray-200 focus:border-[#1D4ED8] focus:ring-2 focus:ring-blue-100 outline-none resize-none text-gray-700 bg-base-100/50 mb-6"
                 ></textarea>
 
                 <div className="flex gap-3">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setIsModalOpen(false)}
                     className="flex-1 py-3 font-medium text-gray-600 transition hover:bg-gray-100 rounded-xl"
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="flex-1 py-3 bg-[#1D4ED8] hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition flex justify-center items-center"
                   >

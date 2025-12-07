@@ -10,12 +10,12 @@ import {
   User,
   X,
 } from "lucide-react";
-import { NavLink, useNavigate,  } from "react-router"; // React Router use korle
+import { NavLink, useNavigate } from "react-router"; // React Router use korle
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-
 import useAuth from "../../hooks/useAuth";
-import { Loader,  } from "../Loader/Loader";
+import { Loader } from "../Loader/Loader";
 import NavItem from "./NavItem";
+import logo from '../../assets/logo.png'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -52,8 +52,9 @@ export default function Navbar() {
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <div className="flex items-center justify-center flex-1 md:justify-start">
-            <NavLink to="/" className="flex items-center gap-2">
-              <span className="text-xl font-bold text-primary">ContestHub</span>
+            <NavLink to="/" className="">
+              {/* <span className="text-xl font-bold text-primary">ContestHub</span> */}
+              <img className="" width={130} src={logo} alt="" />
             </NavLink>
           </div>
         </div>

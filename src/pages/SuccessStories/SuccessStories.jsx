@@ -45,7 +45,7 @@ export default function SuccessStories() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden">
       {/* --- Hero Section --- */}
       <section className="relative py-20 bg-[#111827] text-white overflow-hidden">
         {/* Background linears */}
@@ -112,7 +112,7 @@ export default function SuccessStories() {
       <section className="container px-4 py-20 mx-auto md:px-6">
         <div className="flex flex-col items-center gap-12 lg:flex-row">
           <div className="lg:w-1/2">
-            <h2 className="text-3xl font-bold text-[#111827] mb-4">
+            <h2 className="mb-4 text-3xl font-bold text-neutral">
               From Hobbyist to Professional
             </h2>
             <p className="mb-6 text-lg leading-relaxed text-gray-600">
@@ -146,10 +146,10 @@ export default function SuccessStories() {
       </section>
 
       {/* --- Winners Grid (Masonry Style) --- */}
-      <section className="py-16 bg-white">
+      <section className="py-16 ">
         <div className="container px-4 mx-auto md:px-6">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-[#111827]">
+            <h2 className="text-3xl font-bold text-neutral">
               Top Performers of the Month
             </h2>
             <p className="mt-2 text-gray-500">
@@ -165,7 +165,7 @@ export default function SuccessStories() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-[#F9FAFB] rounded-2xl p-8 border border-gray-100 hover:border-blue-200 hover:shadow-xl transition-all duration-300 relative group"
+                className="relative p-8 transition-all duration-300 border border-gray-100 bg-base-100 rounded-2xl hover:border-blue-200 hover:shadow-xl group"
               >
                 <Quote
                   className="absolute text-gray-200 transition-colors top-6 right-6 group-hover:text-blue-100"
@@ -179,7 +179,7 @@ export default function SuccessStories() {
                     className="object-cover w-16 h-16 border-2 border-white rounded-full shadow-md"
                   />
                   <div>
-                    <h3 className="font-bold text-lg text-[#111827]">
+                    <h3 className="text-lg font-bold text-neutral">
                       {winner.name}
                     </h3>
                     <p className="text-sm text-blue-600">{winner.role}</p>

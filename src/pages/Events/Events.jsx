@@ -103,13 +103,13 @@ export default function Events() {
   });
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] pb-20">
+    <div className="min-h-screen pb-20">
       {/* --- Header & Controls --- */}
-      <div className="px-4 pt-24 pb-8 bg-white border-b border-gray-200 md:px-6">
+      <div className="px-4 pt-24 pb-8 border-b border-gray-200 bg-base-100 md:px-6">
         <div className="container mx-auto">
           <div className="flex flex-col items-center justify-between gap-6 mb-8 md:flex-row">
             <div>
-              <h1 className="text-3xl font-bold text-[#111827]">
+              <h1 className="text-3xl font-bold text-neutral">
                 Contest Calendar
               </h1>
               <p className="mt-1 text-gray-500">
@@ -118,7 +118,7 @@ export default function Events() {
             </div>
 
             {/* View Toggles */}
-            <div className="flex p-1 bg-gray-100 rounded-lg">
+            <div className="flex p-1 rounded-lg bg-base-100">
               <button
                 onClick={() => setView("calendar")}
                 className={`px-4 py-2 rounded-md flex items-center gap-2 text-sm font-medium transition-all ${
@@ -143,7 +143,7 @@ export default function Events() {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-col items-center gap-4 bg-white md:flex-row">
+          <div className="flex flex-col items-center gap-4 bg-base-100 md:flex-row">
             <div className="relative w-full md:w-80">
               <Search
                 className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2"

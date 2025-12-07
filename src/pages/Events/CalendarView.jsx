@@ -39,11 +39,11 @@ export const CalendarView = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-2xl"
+      className="overflow-hidden border border-gray-200 shadow-sm bg-base-100 rounded-2xl"
     >
       {/* Calendar Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-100">
-        <h2 className="text-xl font-bold text-[#111827]">{monthName}</h2>
+        <h2 className="text-xl font-bold text-neutral">{monthName}</h2>
         <div className="flex gap-2">
           <button
             onClick={onPrev}
@@ -61,7 +61,7 @@ export const CalendarView = ({
       </div>
 
       {/* Week Days */}
-      <div className="grid grid-cols-7 border-b border-gray-100 bg-gray-50">
+      <div className="grid grid-cols-7 border-b border-gray-100 bg-base-100">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
           <div
             key={d}
@@ -75,7 +75,7 @@ export const CalendarView = ({
       {/* Days Grid */}
       <div className="grid grid-cols-7 auto-rows-[120px] divide-x divide-y divide-gray-100">
         {days.map((day, idx) => {
-          if (!day) return <div key={idx} className="bg-gray-50/30"></div>;
+          if (!day) return <div key={idx} className="bg-base-100/30"></div>;
 
           const dateObj = new Date(
             currentDate.getFullYear(),
@@ -93,7 +93,7 @@ export const CalendarView = ({
             >
               <span
                 className={`text-sm font-medium ${
-                  dayEvents.length > 0 ? "text-[#1D4ED8]" : "text-gray-500"
+                  dayEvents.length > 0 ? "text-[#1D4ED8]" : "text-neutral"
                 }`}
               >
                 {day}
