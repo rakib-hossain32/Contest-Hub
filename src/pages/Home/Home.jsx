@@ -1,9 +1,9 @@
-import React from 'react';
-import { FaGithub, FaLinkedin, FaGlobe, FaUserCircle } from 'react-icons/fa';
+
 import Banner from '../../components/Hero/Banner';
 import PopularContests from './PopularContests/PopularContests';
 import WinnerAdvertisement from './WinnerAdvertisement/WinnerAdvertisement';
 import WhyChooseUs from './WhyChooseUs/WhyChooseUs';
+import FAQ from './FAQ/FAQ';
 
 
 const Home = () => {
@@ -12,7 +12,8 @@ const Home = () => {
         <Banner />
         <PopularContests />
         <WinnerAdvertisement />
-        <WhyChooseUs/>
+        <WhyChooseUs />
+        <FAQ/>
       </div>
     );
 };

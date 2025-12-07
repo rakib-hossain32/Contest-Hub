@@ -96,7 +96,7 @@ export default function PopularContests() {
       <div className="container mx-auto">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <h2 className="mb-3 text-3xl font-bold md:text-4xl text-primary">
+          <h2 className="mb-3 text-3xl font-extrabold md:text-5xl text-neutral">
             Popular Contests
           </h2>
           <p className="max-w-xl mx-auto text-base-content/70">
@@ -108,12 +108,7 @@ export default function PopularContests() {
         {/* Contests Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {sortedContests.map((contest, index) => (
-            <ContestCard
-              key={contest.id}
-              contest={contest}
-              index={index}
-              
-            />
+            <ContestCard key={contest.id} contest={contest} index={index} />
           ))}
         </div>
 
