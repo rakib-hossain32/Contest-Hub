@@ -86,19 +86,19 @@ const ContestSubmissions = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 rounded-full hover:bg-gray-100 text-slate-500"
+          className="p-2 rounded-full cursor-pointer hover:bg-neutral hover:text-base-100 text-neutral"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">Submissions</h2>
+          <h2 className="text-2xl font-bold ">Submissions</h2>
           <p className="text-sm text-slate-500">
             Viewing entries for:{" "}
-            <span className="font-semibold text-[#00b074]">{contestName}</span>
+            <span className="font-semibold text-secondary">{contestName}</span>
           </p>
         </div>
       </div>
@@ -111,9 +111,9 @@ const ContestSubmissions = () => {
           return (
             <div
               key={sub.id}
-              className={`bg-white p-6 rounded-xl shadow-sm border ${
+              className={` p-6 rounded-xl shadow-sm border border-secondary/30 ${
                 isWinner
-                  ? "border-[#00b074] ring-1 ring-[#00b074] bg-green-50/30"
+                  ? "border-[#00b074] ring-1 ring-[#00b074] bg-base-100/30"
                   : "border-gray-100"
               } transition-all flex flex-col md:flex-row gap-6 ${
                 isLoser ? "opacity-50 grayscale" : ""
@@ -129,10 +129,10 @@ const ContestSubmissions = () => {
               <div className="flex-1">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-800">
+                    <h3 className="text-lg font-bold ">
                       {sub.participantName}
                     </h3>
-                    <p className="mb-2 text-sm text-slate-500">{sub.email}</p>
+                    <p className="mb-2 text-sm text-neutral/90">{sub.email}</p>
                   </div>
                   {isWinner && (
                     <div className="flex items-center gap-1 text-[#00b074] font-bold bg-green-100 px-3 py-1 rounded-full text-xs">
@@ -140,10 +140,8 @@ const ContestSubmissions = () => {
                     </div>
                   )}
                 </div>
-                <div className="p-3 mt-2 mb-4 text-sm rounded-lg bg-slate-50 text-slate-600">
-                  <span className="font-semibold text-slate-700">
-                    Creator Note:
-                  </span>{" "}
+                <div className="p-3 mt-2 mb-4 text-sm border rounded-lg border-secondary/10 text-neutral">
+                  <span className="font-semibold ">Creator Note:</span>{" "}
                   {sub.notes}
                 </div>
                 <div className="flex items-center gap-3">
@@ -159,11 +157,11 @@ const ContestSubmissions = () => {
               </div>
 
               {/* Action Area */}
-              <div className="flex items-center justify-center md:border-l md:border-gray-100 md:pl-6">
+              <div className="flex items-center justify-center md:border-l md:border-secondary md:pl-6">
                 {!winner ? (
                   <button
                     onClick={() => handleDeclareWinner(sub.id)}
-                    className="px-4 py-2 text-sm font-medium text-white transition-colors rounded-lg shadow-lg bg-slate-800 hover:bg-slate-900 shadow-slate-200"
+                    className="px-4 py-2 text-sm font-medium text-white transition-colors rounded-lg shadow-lg cursor-pointer bg-primary hover:bg-primary/90 "
                   >
                     Declare Winner
                   </button>

@@ -49,58 +49,130 @@ const EditContest = () => {
   if (!contestData) return <div>Contest not found</div>;
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full ">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-slate-800">Edit Contest</h2>
+        <h2 className="text-2xl font-bold">Edit Contest</h2>
+        <p className="text-sm text-gray-500">
+          Update the details of your contest below.
+        </p>
       </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-8 space-y-8 bg-white border border-gray-100 shadow-sm rounded-2xl"
+        className="p-8 space-y-8 border shadow-sm border-secondary/40 rounded-2xl"
       >
-        {/* Reusing structure from Add Contest but simplified for brevity */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {/* --- Section 1: Basic Info --- */}
+        <div className="space-y-6">
+          <h3 className="pb-2 text-lg font-semibold border-b border-secondary/30">
+            Basic Details
+          </h3>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Contest Name</label>
+              <input
+                {...register("name", { required: true })}
+                type="text"
+                className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Contest Type</label>
+              <select
+                {...register("type", { required: true })}
+                className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none "
+              >
+                <option value="Business">Business</option>
+                <option value="Medical">Medical</option>
+                <option value="Article">Article Writing</option>
+                <option value="Design">Design</option>
+                <option value="Photography">Photography</option>
+                <option value="Gaming">Gaming</option>
+              </select>
+            </div>
+          </div>
+
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">
-              Contest Name
-            </label>
+            <label className="text-sm font-medium">Cover Image URL</label>
             <input
-              {...register("name")}
-              type="text"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] outline-none"
+              {...register("image", { required: true })}
+              type="url"
+              className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none"
             />
           </div>
+
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700">
-              Prize Money
-            </label>
-            <input
-              {...register("prizeMoney")}
-              type="number"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] outline-none"
-            />
+            <label className="text-sm font-medium">Description</label>
+            <textarea
+              {...register("description", { required: true })}
+              rows="3"
+              className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none resize-none"
+            ></textarea>
           </div>
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">
-            Description
-          </label>
-          <textarea
-            {...register("description")}
-            rows="3"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] outline-none resize-none"
-          ></textarea>
+
+        {/* --- Section 2: Budget & Timeline --- */}
+        <div className="space-y-6">
+          <h3 className="pb-2 text-lg font-semibold border-b border-secondary/30">
+            Budget & Timeline
+          </h3>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Entry Fee ($)</label>
+              <input
+                {...register("price", { required: true })}
+                type="number"
+                className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Prize Money ($)</label>
+              <input
+                {...register("prizeMoney", { required: true })}
+                type="number"
+                className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Deadline</label>
+              <input
+                {...register("deadline", { required: true })}
+                type="date"
+                className="w-full px-4 py-3 rounded-xl border  border-secondary/10 focus:border-[#00b074] outline-none"
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex justify-end gap-4 pt-4">
+
+        {/* --- Section 3: Instructions --- */}
+        <div className="space-y-6">
+          <h3 className="pb-2 text-lg font-semibold border-b border-secondary/30">
+            Task Instructions
+          </h3>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Detailed Instructions</label>
+            <textarea
+              {...register("instructions", { required: true })}
+              rows="5"
+              className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] outline-none resize-none"
+            ></textarea>
+          </div>
+        </div>
+
+        {/* --- Buttons --- */}
+        <div className="flex justify-end gap-4 pt-4 border-t border-secondary/30">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="px-6 py-2.5 rounded-xl text-slate-600 font-medium hover:bg-slate-50"
+            className="px-6 py-2.5 rounded-xl font-medium hover:bg-slate-50 hover:text-primary transition cursor-pointer text-gray-600"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold shadow-lg hover:bg-blue-700 transition-all"
+            className="px-6 py-2.5 rounded-xl bg-primary text-white font-bold shadow-lg hover:bg-primary/90 transition-all cursor-pointer "
           >
             Update Contest
           </button>

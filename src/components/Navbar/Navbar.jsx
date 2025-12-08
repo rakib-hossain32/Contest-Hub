@@ -115,7 +115,7 @@ export default function Navbar() {
                       src={user.photoURL}
                       alt={user.displayName}
                       referrerPolicy="no-referrer"
-                      className="object-cover w-10 h-10 border-2 rounded-full shadow-md border-primary-500"
+                      className="object-cover w-10 h-10 border-2 rounded-full shadow-md border-primary"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src =

@@ -32,7 +32,7 @@ export const WinningContests = () => {
       {winnings.map((item) => (
         <div
           key={item.id}
-          className="relative p-6 overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-sm group rounded-2xl hover:shadow-lg"
+          className="relative p-6 overflow-hidden transition-all duration-300 border shadow-sm border-secondary/30 e group rounded-2xl hover:shadow-lg"
         >
           <div className="absolute top-0 right-0 w-24 h-24 -mt-4 -mr-4 transition-transform bg-yellow-100 rounded-bl-full opacity-50 group-hover:scale-110"></div>
 
@@ -41,22 +41,20 @@ export const WinningContests = () => {
               <Trophy className="w-6 h-6" />
             </div>
 
-            <h3 className="mb-1 text-lg font-bold text-slate-800">
-              {item.contest}
-            </h3>
+            <h3 className="mb-1 text-lg font-bold ">{item.contest}</h3>
             <p className="mb-4 text-sm text-slate-500">Won on {item.date}</p>
 
-            <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+            <div className="flex items-center justify-between pt-4 border-t border-secondary/50">
               <div className="flex flex-col">
-                <span className="text-xs font-semibold text-gray-400 uppercase">
+                <span className="text-xs font-semibold uppercase text-neutral">
                   Rank
                 </span>
-                <span className="flex items-center gap-1 font-bold text-slate-800">
+                <span className="flex items-center gap-1 font-bold text-neutral/55">
                   <Award className="w-4 h-4 text-purple-500" /> #{item.rank}
                 </span>
               </div>
               <div className="flex flex-col text-right">
-                <span className="text-xs font-semibold text-gray-400 uppercase">
+                <span className="text-xs font-semibold uppercase text-neutral">
                   Prize
                 </span>
                 <span className="text-lg font-bold text-green-600">

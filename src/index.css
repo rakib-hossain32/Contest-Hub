@@ -9,36 +9,64 @@
   default: true;
 
   /* Main Colors */
-  --color-primary: #1D4ED8;     /* Royal Blue */
-  --color-secondary: #8B5CF6;   /* Electric Purple */
-  --color-accent: #10B981;      /* Emerald Green */
-  --color-neutral: #111827;     /* Charcoal Gray */
-  --color-base-100: #F9FAFB;    /* Cool White */
+  --color-primary: #1c3b6c; /* Deep Navy (Primary brand color on Light BG) */
+  --color-secondary: #1a7a77; /* Deep Mist Green */
+  --color-accent: #ffd700; /* Classic Gold (Prizes/Winners - Consistent with Dark Mode) */
+  --color-neutral: #202020; /* Deep Text Gray (Text color) */
+  --color-base-100: #f7f7f7; /* Ultra-Light Gray (Background) */
 
-  /* Feedback Colors */
-  --color-info: #3B82F6;        /* Info / highlights */
-  --color-success: #10B981;     /* Success messages / winner */
-  --color-warning: #F59E0B;     /* Prize / badges */
-  --color-error: #EF4444;       /* Error / alerts */
+  /* Feedback Colors (Standard, high-contrast) */
+  --color-info: #3b82f6;
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-error: #e74c3c;
 }
 
 @plugin "daisyui/theme" {
   name: "dark";
 
   /* Main Colors */
-  --color-primary: #ADD8E6;     /* Dark Royal Blue */
-  --color-secondary: #6D28D9;   /* Dark Purple */
-  --color-accent: #047857;      /* Dark Green */
-  --color-neutral: #F9FAFB;     /* Dark Gray / text */
-  --color-base-100: #111827;    /* Dark background */
 
-  /* Feedback Colors */
-  --color-info: #2563EB;        /* Info highlights */
-  --color-success: #047857;     /* Success / winner */
-  --color-warning: #B45309;     /* Prize / badges */
-  --color-error: #B91C1C;       /* Error / alerts */
+  --color-primary: #4a90e2; /* Vibrant Blue (Matching Footer's CTA) */
+  --color-secondary: #4ad9a9; /* Modern Accent */
+  --color-accent: #ffd700; /* Classic Gold (For Prizes/Logo) */
+  --color-neutral: #fafafa; /* Text Color */
+  --color-base-100: #0d1321; /* Deep Dark Navy (Matches Footer Background) */
+
+  /* Feedback Colors (High-Contrast for Readability) */
+  --color-info: #3b82f6;
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-error: #e74c3c;
 }
 
 * {
   font-family: "Urbanist", sans-serif;
+}
+
+
+/* Custom DatePicker Popper */
+.react-datepicker {
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+  padding: 8px !important;
+}
+
+/* Header */
+.react-datepicker__header {
+  background: transparent !important;
+  border-bottom: none !important;
+  padding-top: 12px !important;
+}
+
+/* Day Hover */
+.react-datepicker__day:hover {
+  background-color: #00b07420 !important;
+}
+
+/* Selected Day */
+.react-datepicker__day--selected {
+  background-color: #00b074 !important;
+  color: white !important;
 }

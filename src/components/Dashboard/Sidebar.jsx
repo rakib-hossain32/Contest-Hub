@@ -6,36 +6,29 @@ import {
   LayoutDashboard,
   PlusCircle,
   Users,
-  Menu,
-  Search,
-  Bell,
-  Mail,
-  Edit,
-  Trash2,
-  Eye,
-  CheckCircle,
-  XCircle,
-  Clock,
-  ChevronLeft,
-  Calendar as CalendarIcon,
-  DollarSign,
-  FileText,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import useRole from "../../hooks/useRole";
+import logo from "../../../public/logo3.png";
+import { motion } from "framer-motion";
 
 export const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const { role } = useRole();
-  console.log(role);
+  // console.log(role);
 
   const menuItems =
     role === "user"
       ? [
           {
+            name: "User Dashboard",
+            icon: Users,
+            path: "/dashboard",
+          },
+          {
             name: "My Participated Contests",
             icon: ListOrdered,
-            path: "/dashboard/participated",
+            path: "/dashboard/participated-contests",
           },
           {
             name: "My Winning Contests",
@@ -67,8 +60,17 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
           },
         ]
       : [
-          { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
-          { name: "Manage Users", icon: Users, path: "/dashboard/users" },
+          {
+            name: "Admin Dashboard",
+            icon: LayoutDashboard,
+            path: "/dashboard",
+          },
+
+          {
+            name: "Manage Users",
+            icon: Users,
+            path: "/dashboard/users",
+          },
           {
             name: "Manage Contests",
             icon: Trophy,
@@ -97,26 +99,43 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       <aside
         className={`
-          z-50 bg-white shadow-xl transition-all duration-300 shrink-0
+          z-50 bg-base-100 shadow-xl transition-all duration-300 shrink-0
           fixed inset-y-0 left-0 w-[260px]
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          lg:block lg:h-screen lg:sticky lg:top-0 lg:translate-x-0 lg:shadow-none lg:border-r lg:border-gray-100
+          lg:block lg:h-screen lg:sticky lg:top-0 lg:translate-x-0 lg:shadow-none lg:border-r  lg:border-secondary/20
         `}
       >
         <div className="flex flex-col h-full overflow-y-auto">
           {/* Logo Section */}
           <div className="flex items-center justify-between px-6 py-8">
-            <Link to="/" className="flex items-center gap-2 outline-0">
+            {/* <Link to="/" className="flex items-center gap-2 outline-0">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#00b074] text-xl font-bold text-white shadow-md shadow-green-200">
                 C
               </div>
-              <span className="text-xl font-bold tracking-tight text-slate-800">
+              <span className="text-xl font-bold tracking-tight text-neutral">
                 Contest Hub
               </span>
-            </Link>
+            </Link> */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-2"
+            >
+              <div className="flex items-center justify-center h-10 w-13 ">
+                {/* <span className="text-xl font-bold text-white">C</span> */}
+                <Link to="/">
+                  <img src={logo} alt="" />
+                </Link>
+              </div>
+
+              <span className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-neutral to-gray-400">
+                ContestHub
+              </span>
+            </motion.div>
             <button
               onClick={toggleSidebar}
-              className="transition-colors lg:hidden text-slate-500 hover:text-red-500"
+              className="transition-colors lg:hidden text-neutral hover:text-red-500"
             >
               <LogOut className="w-5 h-5 rotate-180" />
             </button>
@@ -135,20 +154,20 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
                   }}
                   className={`flex w-full items-center rounded-xl px-4 py-3.5 text-[15px] font-medium transition-all duration-200 group relative overflow-hidden ${
                     active
-                      ? "bg-[#e5f8f0] text-[#00b074]"
-                      : "text-slate-600 hover:bg-gray-50 hover:text-slate-900"
+                      ? "bg-secondary/15 text-secondary"
+                      : "text-secondary hover:bg-secondary/15 hover:text-secondary"
                   }`}
                 >
                   {/* Active Indicator Bar */}
                   {active && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 bg-[#00b074] rounded-r-full" />
+                    <span className="absolute left-0 w-1 h-8 -translate-y-1/2 rounded-r-full top-1/2 bg-secondary" />
                   )}
 
                   <item.icon
                     className={`mr-3 h-5 w-5 transition-colors ${
                       active
-                        ? "text-[#00b074]"
-                        : "text-slate-400 group-hover:text-slate-600"
+                        ? "text-secondary"
+                        : "text-secondary group-hover:text-secondary"
                     }`}
                   />
                   <span>{item.name}</span>
@@ -158,7 +177,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
           </div>
 
           {/* Bottom Section */}
-          <div className="p-4 border-t border-gray-100">
+          <div className="p-4 border-t border-secondary/20">
             <button className="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-medium text-red-600 transition-colors border border-red-100 rounded-xl bg-red-50 hover:bg-red-100 hover:text-red-700">
               <LogOut className="w-4 h-4" />
               <span>Log Out</span>

@@ -1,9 +1,5 @@
 import {
-  Calendar,
-  CheckCircle,
-  Clock,
-  Trophy,
-  Award,
+
   MapPin,
   Edit3,
   Camera,
@@ -17,28 +13,28 @@ export const UserProfile = () => {
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       {/* Left Column: Profile Card */}
       <div className="space-y-6 lg:col-span-1">
-        <div className="relative p-6 overflow-hidden text-center bg-white border border-gray-100 shadow-sm rounded-2xl">
-          <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+        <div className="relative p-6 overflow-hidden text-center border shadow-sm border-secondary/30 rounded-2xl">
+          <div className="absolute top-0 left-0 right-0 h-24 bg-linear-to-r from-blue-500 to-cyan-500"></div>
           <div className="relative mt-8 mb-4">
             <img
               src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
               alt="Profile"
               className="object-cover w-24 h-24 mx-auto border-4 border-white rounded-full shadow-md"
             />
-            <button className="absolute bottom-0 right-[35%] bg-white p-1.5 rounded-full shadow-sm border border-gray-200 text-gray-600 hover:text-blue-600">
+            <button className="absolute bottom-0 right-[35%] bg-white p-1.5 rounded-full shadow-sm border border-secondary/10 text-gray-600 hover:text-blue-600">
               <Camera className="w-4 h-4" />
             </button>
           </div>
-          <h2 className="text-xl font-bold text-slate-800">John Doe</h2>
+          <h2 className="text-xl font-bold ">John Doe</h2>
           <p className="text-sm text-slate-500">Creative Designer</p>
-          <div className="flex items-center justify-center gap-2 py-2 mt-4 text-sm rounded-lg text-slate-600 bg-slate-50">
+          <div className="flex items-center justify-center gap-2 py-2 mt-4 text-sm rounded-lg bg-primary">
             <MapPin className="w-4 h-4" /> New York, USA
           </div>
         </div>
 
         {/* Win Percentage Chart (Custom CSS Implementation) */}
-        <div className="p-6 bg-white border border-gray-100 shadow-sm rounded-2xl">
-          <h3 className="flex items-center gap-2 mb-4 font-bold text-slate-800">
+        <div className="p-6 border shadow-sm border-secondary/30 rounded-2xl">
+          <h3 className="flex items-center gap-2 mb-4 font-bold ">
             <TrendingUp className="w-5 h-5 text-blue-500" /> Success Rate
           </h3>
           <div className="flex items-center justify-center py-4">
@@ -66,9 +62,7 @@ export const UserProfile = () => {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-bold text-slate-800">
-                  {winPercentage}%
-                </span>
+                <span className="text-3xl font-bold ">{winPercentage}%</span>
                 <span className="text-xs font-medium uppercase text-slate-500">
                   Win Rate
                 </span>
@@ -76,16 +70,12 @@ export const UserProfile = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 mt-2 text-center">
-            <div className="p-2 rounded-lg bg-slate-50">
-              <span className="block text-xs uppercase text-slate-400">
-                Won
-              </span>
+            <div className="p-2 rounded-lg bg-secondary">
+              <span className="block text-xs uppercase ">Won</span>
               <span className="font-bold text-slate-800">{stats.won}</span>
             </div>
-            <div className="p-2 rounded-lg bg-slate-50">
-              <span className="block text-xs uppercase text-slate-400">
-                Total
-              </span>
+            <div className="p-2 rounded-lg bg-secondary">
+              <span className="block text-xs uppercase ">Total</span>
               <span className="font-bold text-slate-800">
                 {stats.participated}
               </span>
@@ -96,70 +86,64 @@ export const UserProfile = () => {
 
       {/* Right Column: Update Form */}
       <div className="lg:col-span-2">
-        <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-2xl">
-          <div className="flex items-center justify-between p-6 border-b border-gray-100">
-            <h3 className="text-lg font-bold text-slate-800">
-              Update Information
-            </h3>
-            <Edit3 className="w-5 h-5 text-slate-400" />
+        <div className="overflow-hidden border shadow-sm border-secondary/30 rounded-2xl">
+          <div className="flex items-center justify-between p-6 border-b border-secondary/30">
+            <h3 className="text-lg font-bold ">Update Information</h3>
+            <Edit3 className="w-5 h-5 " />
           </div>
           <div className="p-8">
             <form className="space-y-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Full Name
-                  </label>
+                  <label className="text-sm font-semibold ">Full Name</label>
                   <input
                     type="text"
                     defaultValue="John Doe"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Phone Number
-                  </label>
+                  <label className="text-sm font-semibold ">Phone Number</label>
                   <input
                     type="tel"
                     placeholder="+1 (555) 000-0000"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+                <label className="text-sm font-semibold ">
                   Profile Photo URL
                 </label>
                 <input
                   type="url"
                   placeholder="https://..."
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all"
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">
+                <label className="text-sm font-semibold ">
                   Address (Extra Field)
                 </label>
                 <textarea
                   rows="3"
                   placeholder="Enter your full address..."
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-secondary/10 focus:border-[#00b074] focus:ring-4 focus:ring-[#00b074]/10 outline-none transition-all resize-none"
                 ></textarea>
               </div>
 
               <div className="flex justify-end gap-4 pt-4">
                 <button
                   type="button"
-                  className="px-6 py-2.5 rounded-xl text-slate-600 font-medium hover:bg-slate-50 transition-colors"
+                  className="px-6 py-2.5 rounded-xl  font-medium text-neutral hover:text-base-100 hover:bg-neutral transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-[#00b074] text-white font-bold shadow-lg shadow-[#00b074]/30 hover:shadow-[#00b074]/40 hover:-translate-y-0.5 transition-all"
+                  className="px-6 py-2.5 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all cursor-pointer"
                 >
                   Save Changes
                 </button>

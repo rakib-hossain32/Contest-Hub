@@ -77,26 +77,26 @@ const MyContests = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800">My Contests</h2>
+          <h2 className="text-2xl font-bold ">My Contests</h2>
           <p className="text-sm text-slate-500">
             Manage your created challenges.
           </p>
         </div>
         <Link
           to="/dashboard/add-contest"
-          className="flex items-center gap-2 bg-[#00b074] text-white px-4 py-2 rounded-xl font-medium shadow-md hover:shadow-lg transition-all"
+          className="flex items-center gap-2 px-4 py-2 font-medium text-white transition-all shadow-md bg-primary rounded-xl hover:shadow-lg"
         >
           <PlusCircle className="w-4 h-4" /> Create New
         </Link>
       </div>
 
-      <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-xl">
+      <div className="overflow-hidden border shadow-sm border-secondary/10 rounded-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-slate-700">
-            <thead className="text-xs font-semibold uppercase bg-slate-50 text-slate-500">
+            <thead className="text-xs font-semibold uppercase border-b border-secondary/50 text-neutral">
               <tr>
                 <th className="px-6 py-4">Contest</th>
                 <th className="px-6 py-4">Deadline</th>
@@ -106,11 +106,11 @@ const MyContests = () => {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-secondary/50">
               {contests.map((contest) => (
                 <tr
                   key={contest.id}
-                  className="transition-colors hover:bg-gray-50/50"
+                  className="transition-colors hover:bg-gray-50/10"
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -120,7 +120,7 @@ const MyContests = () => {
                         className="object-cover w-10 h-10 rounded-lg"
                       />
                       <div>
-                        <p className="font-semibold text-slate-800">
+                        <p className="font-semibold text-neutral">
                           {contest.name}
                         </p>
                         <p className="text-xs text-gray-400">{contest.type}</p>
@@ -134,7 +134,7 @@ const MyContests = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 font-medium">
-                    <div className="text-slate-800">
+                    <div className="text-primary">
                       ${contest.price} <span className="text-gray-300">/</span>{" "}
                       <span className="text-[#00b074]">
                         ${contest.prizeMoney}
