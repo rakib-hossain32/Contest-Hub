@@ -58,6 +58,8 @@ const ManageContests = () => {
   // console.log(data)
 
   const handleStatusChange = (id, newStatus) => {
+
+    axiosSecure.patch('')
     // setContests(
     //   contests.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
     // );

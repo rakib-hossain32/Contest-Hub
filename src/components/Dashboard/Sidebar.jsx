@@ -21,7 +21,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   const handleLoginOut = () => {
     logOutUser()
-      .than(() => {})
+      
       .catch((err) => {
         toast.error(err.message);
       });
