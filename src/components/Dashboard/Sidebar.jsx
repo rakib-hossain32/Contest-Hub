@@ -11,10 +11,21 @@ import { Link, useLocation } from "react-router";
 import useRole from "../../hooks/useRole";
 import logo from "../../../public/logo3.png";
 import { motion } from "framer-motion";
+import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 export const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const { role } = useRole();
+  const { logOutUser } = useAuth();
+
+  const handleLoginOut = () => {
+    logOutUser()
+      .than(() => {})
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
   // console.log(role);
 
   const menuItems =
@@ -178,7 +189,10 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
 
           {/* Bottom Section */}
           <div className="p-4 border-t border-secondary/20">
-            <button className="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-medium text-red-600 transition-colors border border-red-100 rounded-xl bg-red-50 hover:bg-red-100 hover:text-red-700">
+            <button
+              onClick={handleLoginOut}
+              className="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-medium text-red-600 transition-colors border border-red-100 cursor-pointer rounded-xl bg-red-50 hover:bg-red-100 hover:text-red-700"
+            >
               <LogOut className="w-4 h-4" />
               <span>Log Out</span>
             </button>

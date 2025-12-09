@@ -1,52 +1,63 @@
-import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
-
-
-// --- Mock Data ---
-const MOCK_CONTESTS = [
-  {
-    id: 1,
-    name: "Minimalist Logo Design",
-    image: "https://images.unsplash.com/photo-1626785774573-4b799314348d?auto=format&fit=crop&w=100&q=80",
-    description: "Create a clean, modern logo for a tech startup.",
-    price: 50,
-    prizeMoney: 300,
-    instructions: "Use blue and white colors. Keep it simple.",
-    type: "Design",
-    deadline: "2024-12-30", // Changed to string for simpler handling with HTML input
-    status: "pending", // pending, confirmed, rejected
-  },
-  {
-    id: 2,
-    name: "Summer Photography",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=100&q=80",
-    description: "Capture the essence of summer.",
-    price: 20,
-    prizeMoney: 150,
-    instructions: "High resolution only. No heavy filters.",
-    type: "Photography",
-    deadline: "2023-11-01", 
-    status: "confirmed",
-  },
-];
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Calendar } from "lucide-react";
+import Swal from "sweetalert2";
+import { Loader } from "../../../../components/Loader/Loader";
 
 const EditContest = () => {
+  const axiosSecure = useAxiosSecure();
+
   const { id } = useParams();
   const navigate = useNavigate();
-  // Simulate fetching data
-  const contestData = MOCK_CONTESTS.find((c) => c.id === parseInt(id));
+  // console.log(id);
 
-  const { register, control, handleSubmit } = useForm({
-    defaultValues: contestData, // Pre-fill form
+  const { data: contest = {}, isLoading } = useQuery({
+    queryKey: ["edit-contest", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/contests/${id}`);
+      return res.data;
+    },
+  });
+
+  // console.log(data);
+  // Simulate fetching data
+  // const contestData = MOCK_CONTESTS.find((c) => c.id === parseInt(id));
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: contest,
   });
 
   const onSubmit = (data) => {
     console.log("Updated Data:", data);
-    alert("Contest updated successfully!");
-    navigate("/dashboard/my-contests");
+    const id = data._id;
+    axiosSecure.patch(`/contests/${id}/update`, data).then((res) => {
+      if (res.data.modifiedCount) {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Contest Updated",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+    // alert("Contest updated successfully!");
+    // navigate("/dashboard/my-contests");
   };
 
-  if (!contestData) return <div>Contest not found</div>;
+  if (isLoading) {
+    return <Loader/>
+  }
+  if (!contest) return <div className="flex items-center justify-center">Contest not found</div>;
 
   return (
     <div className="w-full ">
@@ -135,13 +146,46 @@ const EditContest = () => {
               />
             </div>
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label className="text-sm font-medium">Deadline</label>
               <input
                 {...register("deadline", { required: true })}
                 type="date"
                 className="w-full px-4 py-3 rounded-xl border  border-secondary/10 focus:border-[#00b074] outline-none"
               />
+            </div> */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Deadline</label>
+
+              <div className="relative">
+                <Controller
+                  control={control}
+                  name="deadline"
+                  rules={{ required: "Deadline is required" }}
+                  render={({ field }) => (
+                    <DatePicker
+                      selected={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      minDate={new Date()}
+                      dateFormat="dd MMM, yyyy"
+                      placeholderText="Select end date"
+                      className="w-full px-4 py-3 transition-all duration-300 border outline-none cursor-pointer pl-11 rounded-xl border-secondary/10 bg-base-100 text-base-content focus:border-primary focus:ring-4 focus:ring-primary/10 "
+                    />
+                  )}
+                />
+
+                {/* Icon */}
+                <Calendar
+                  size={20}
+                  className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2"
+                />
+              </div>
+
+              {errors.deadline && (
+                <p className="text-xs text-red-500">
+                  {errors.deadline.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -181,4 +225,4 @@ const EditContest = () => {
     </div>
   );
 };
-export default EditContest
+export default EditContest;

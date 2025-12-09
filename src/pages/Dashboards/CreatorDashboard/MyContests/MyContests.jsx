@@ -1,15 +1,15 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import {
-  
   PlusCircle,
- 
   Edit,
   Trash2,
-  
   Calendar as CalendarIcon,
-  
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import { Loader } from "../../../../components/Loader/Loader";
 
 // --- Mock Data ---
 const MOCK_CONTESTS = [
@@ -42,14 +42,58 @@ const MOCK_CONTESTS = [
 ];
 
 const MyContests = () => {
-  const [contests, setContests] = useState(MOCK_CONTESTS);
+  // const [contests, setContests] = useState(MOCK_CONTESTS);
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
+  const { data: contests = [], isLoading, refetch } = useQuery({
+    queryKey: ["my-contests", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/contests?email=${user?.email}`);
+      return res.data;
+    },
+  });
+
+  console.log(contests);
+
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this contest?")) {
-      setContests(contests.filter((c) => c.id !== id));
-    }
+    Swal.fire({
+      text: "Are you sure you want to delete this contest?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(id);
+        axiosSecure.delete(`/contests/${id}`).then((res) => {
+          if (res.data.deletedCount) {
+            refetch()
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your contest has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
   };
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "Asia/Dhaka",
+    });
+  }
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -75,6 +119,10 @@ const MyContests = () => {
         return null;
     }
   };
+
+  if (isLoading) {
+    return <Loader/>
+  }
 
   return (
     <div className="space-y-6 ">
@@ -109,8 +157,8 @@ const MyContests = () => {
             <tbody className="divide-y divide-secondary/50">
               {contests.map((contest) => (
                 <tr
-                  key={contest.id}
-                  className="transition-colors hover:bg-gray-50/10"
+                  key={contest._id}
+                  className="transition-colors hover:bg-secondary/10"
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -130,7 +178,7 @@ const MyContests = () => {
                   <td className="px-6 py-4 text-slate-500">
                     <div className="flex items-center gap-1.5">
                       <CalendarIcon className="w-3.5 h-3.5" />
-                      {contest.deadline}
+                      {formatDate(contest.deadline)}
                     </div>
                   </td>
                   <td className="px-6 py-4 font-medium">
@@ -146,7 +194,7 @@ const MyContests = () => {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <Link
-                      to={`/dashboard/submissions/${contest.id}`}
+                      to={`/dashboard/submissions/${contest._id}`}
                       className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline"
                     >
                       See Submissions
@@ -154,20 +202,20 @@ const MyContests = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
-                      {contest.status === "pending" ? (
+                      {contest.status === "Pending" ? (
                         <>
                           <button
                             onClick={() =>
-                              navigate(`/dashboard/edit-contest/${contest.id}`)
+                              navigate(`/dashboard/edit-contest/${contest._id}`)
                             }
-                            className="p-2 text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
+                            className="p-2 text-blue-600 transition-colors rounded-lg cursor-pointer hover:bg-blue-50"
                             title="Edit"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
-                            onClick={() => handleDelete(contest.id)}
-                            className="p-2 text-red-600 transition-colors rounded-lg hover:bg-red-50"
+                            onClick={() => handleDelete(contest._id)}
+                            className="p-2 text-red-600 transition-colors rounded-lg cursor-pointer hover:bg-red-50"
                             title="Delete"
                           >
                             <Trash2 className="w-4 h-4" />
