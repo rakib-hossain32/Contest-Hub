@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { CheckCircle, XCircle, Trash2, AlertCircle } from "lucide-react";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../../hooks/useAuth";
 
 // --- Mock Data ---
 
@@ -39,12 +42,25 @@ const INITIAL_CONTESTS = [
 ];
 
 const ManageContests = () => {
-  const [contests, setContests] = useState(INITIAL_CONTESTS);
+  // const [contests, setContests] = useState(INITIAL_CONTESTS);
+
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const {data: contests = [], isLoading,refetch} = useQuery({
+    queryKey: ["all-contests", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/contests");
+      return res.data;
+    },
+  });
+  
+  // console.log(data)
 
   const handleStatusChange = (id, newStatus) => {
-    setContests(
-      contests.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
-    );
+    // setContests(
+    //   contests.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
+    // );
   };
 
   const handleDelete = (id) => {
@@ -53,25 +69,25 @@ const ManageContests = () => {
         "Are you sure you want to delete this contest permanently?"
       )
     ) {
-      setContests(contests.filter((c) => c.id !== id));
+      // setContests(contests.filter((c) => c.id !== id));
     }
   };
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case "pending":
+      case "Pending":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-200">
             <AlertCircle className="w-3 h-3" /> Pending
           </span>
         );
-      case "confirmed":
+      case "Confirmed":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">
             <CheckCircle className="w-3 h-3" /> Active
           </span>
         );
-      case "rejected":
+      case "Rejected":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200">
             <XCircle className="w-3 h-3" /> Rejected
@@ -105,22 +121,24 @@ const ManageContests = () => {
             <tbody className="divide-y divide-secondary/50">
               {contests.map((contest) => (
                 <tr
-                  key={contest.id}
+                  key={contest._id}
                   className="transition-colors hover:bg-secondary/10"
                 >
                   <td className="px-6 py-4 font-medium text-neutral">
-                    {contest.title}
+                    {contest.name}
                     <div className="text-xs font-normal text-gray-400">
-                      ID: #{contest.id}
+                      ID: #{contest._id}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-neutral">{contest.creator}</td>
+                  <td className="px-6 py-4 text-neutral">
+                    {contest.creatorName}
+                  </td>
                   <td className="px-6 py-4">
                     <div className="text-xs">
                       <span className="text-neutral/80">Fee:</span> $
-                      {contest.fee} <br />
+                      {contest.price} <br />
                       <span className="font-bold text-green-600">
-                        Prize: ${contest.prize}
+                        Prize: ${contest.prizeMoney}
                       </span>
                     </div>
                   </td>
@@ -133,7 +151,7 @@ const ManageContests = () => {
                       {contest.status !== "confirmed" && (
                         <button
                           onClick={() =>
-                            handleStatusChange(contest.id, "confirmed")
+                            handleStatusChange(contest._id, "confirmed")
                           }
                           className="p-2 text-green-500 transition-colors rounded-lg cursor-pointer bg-green-800/30 hover:bg-green-800/20"
                           title="Confirm / Approve"
@@ -146,7 +164,7 @@ const ManageContests = () => {
                       {contest.status !== "rejected" && (
                         <button
                           onClick={() =>
-                            handleStatusChange(contest.id, "rejected")
+                            handleStatusChange(contest._id, "rejected")
                           }
                           className="p-2 text-orange-600 transition-colors rounded-lg cursor-pointer bg-orange-500/30 hover:bg-orange-500/20"
                           title="Reject"
@@ -157,7 +175,7 @@ const ManageContests = () => {
 
                       {/* Delete Button */}
                       <button
-                        onClick={() => handleDelete(contest.id)}
+                        onClick={() => handleDelete(contest._id)}
                         className="p-2 ml-2 text-red-600 transition-colors rounded-lg cursor-pointer bg-red-500/30 hover:bg-red-500/20"
                         title="Delete Permanently"
                       >

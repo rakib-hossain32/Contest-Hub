@@ -22,7 +22,8 @@ const AddContest = () => {
   const onSubmit = (data) => {
     console.log("New Contest Data:", data);
     data.email = user?.email;
-    console.log(data)
+    data.creatorName = user?.displayName;
+    console.log(data);
 
     axiosSecure.post("/contests", data).then((res) => {
       console.log(res.data);
@@ -254,7 +255,6 @@ const AddContest = () => {
           </button>
           <button
             type="submit"
-           
             className="px-6 py-2.5 rounded-xl bg-primary text-white font-bold shadow-lg shadow-[#00b074]/30 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all cursor-pointer"
           >
             Create Contest

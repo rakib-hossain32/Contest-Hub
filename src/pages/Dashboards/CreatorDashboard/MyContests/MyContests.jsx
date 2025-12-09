@@ -50,7 +50,9 @@ const MyContests = () => {
   const { data: contests = [], isLoading, refetch } = useQuery({
     queryKey: ["my-contests", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/contests?email=${user?.email}`);
+      const res = await axiosSecure.get(
+        `/contests/creator?email=${user?.email}`
+      );
       return res.data;
     },
   });
