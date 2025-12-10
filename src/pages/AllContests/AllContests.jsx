@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Users, Calendar, Filter, Search, Lock } from "lucide-react";
 import { useNavigate } from "react-router";
 import ContestCard from "../../components/ContestCard/ContestCard";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 // --- Mock Data (Admin Approved Contests) ---
 const allContestsData = [
@@ -89,6 +92,17 @@ export default function AllContests() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { user, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const { data: contests = {} } = useQuery({
+    queryKey: ["all-contests", "approved"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("");
+      return res.data;
+    },
+  });
 
   // Mock Auth (Replace with Context)
   const isLoggedIn = false;

@@ -113,13 +113,27 @@ const ManageUsers = () => {
                   key={user._id}
                   className="transition-colors hover:bg-gray-50/20"
                 >
-                  <td className="flex items-center justify-center gap-3 px-6 py-4 font-medium text-neutral ">
+                  {/* <td className="flex items-center justify-center gap-3 px-6 py-4 font-medium text-neutral ">
                     <img
                       src={user.photoURL}
                       className="flex items-center justify-center w-8 h-8 text-xs font-bold rounded-full"
                     />
 
                     {user.displayName}
+                  </td> */}
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={user?.photoURL}
+                        alt=""
+                        className="object-cover w-10 h-10 rounded-full "
+                      />
+                      <div>
+                        <p className="font-semibold text-neutral">
+                          {user.displayName}
+                        </p>
+                      </div>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-neutral/70">{user.email}</td>
                   <td className="px-6 py-4">
@@ -149,7 +163,7 @@ const ManageUsers = () => {
                         onChange={(e) =>
                           handleRoleChange(user._id, e.target.value)
                         }
-                        className="block w-full py-2 pl-3 pr-8 text-sm rounded-lg border-primary text-neutral focus:border-primary focus:ring-primary bg-base-100"
+                        className="block w-full py-2 pl-3 pr-8 text-sm border rounded-lg text-neutral focus:border-primary focus:ring-primary bg-base-100 border-secondary/50"
                       >
                         <option value="user">User</option>
                         <option value="creator">Creator</option>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import { CheckCircle, XCircle, Trash2, AlertCircle } from "lucide-react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { Loader } from "../../../../components/Loader/Loader";
 
 // --- Mock Data ---
 
@@ -47,30 +48,66 @@ const ManageContests = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const {data: contests = [], isLoading,refetch} = useQuery({
+  const {
+    data: contests = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["all-contests", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get("/contests");
       return res.data;
     },
   });
-  
+
   // console.log(data)
 
   const handleStatusChange = (id, newStatus) => {
+    console.log(id, newStatus);
+    const status = { newStatus };
 
-    axiosSecure.patch('')
+    axiosSecure.patch(`/contests/${id}/admin`, status).then((res) => {
+      if (res.data.modifiedCount) {
+        refetch();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Contest has been ${newStatus}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
     // setContests(
     //   contests.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
     // );
   };
 
   const handleDelete = (id) => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete this contest permanently?"
-      )
-    ) {
+    Swal.fire({
+      text: "Are you sure you want to delete this contest permanently?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(id);
+        axiosSecure.delete(`/contests/${id}`).then((res) => {
+          if (res.data.deletedCount) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your contest has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+
+    {
       // setContests(contests.filter((c) => c.id !== id));
     }
   };
@@ -99,6 +136,11 @@ const ManageContests = () => {
         return null;
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="space-y-6 ">
       <div>
@@ -150,10 +192,10 @@ const ManageContests = () => {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       {/* Approve Button */}
-                      {contest.status !== "confirmed" && (
+                      {contest.status !== "Confirmed" && (
                         <button
                           onClick={() =>
-                            handleStatusChange(contest._id, "confirmed")
+                            handleStatusChange(contest._id, "Confirmed")
                           }
                           className="p-2 text-green-500 transition-colors rounded-lg cursor-pointer bg-green-800/30 hover:bg-green-800/20"
                           title="Confirm / Approve"
@@ -163,10 +205,10 @@ const ManageContests = () => {
                       )}
 
                       {/* Reject Button */}
-                      {contest.status !== "rejected" && (
+                      {contest.status !== "Rejected" && (
                         <button
                           onClick={() =>
-                            handleStatusChange(contest._id, "rejected")
+                            handleStatusChange(contest._id, "Rejected")
                           }
                           className="p-2 text-orange-600 transition-colors rounded-lg cursor-pointer bg-orange-500/30 hover:bg-orange-500/20"
                           title="Reject"

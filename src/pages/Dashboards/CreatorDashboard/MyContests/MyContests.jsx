@@ -99,19 +99,19 @@ const MyContests = () => {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case "pending":
+      case "Pending":
         return (
           <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-200">
             Pending
           </span>
         );
-      case "confirmed":
+      case "Confirmed":
         return (
           <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">
             Confirmed
           </span>
         );
-      case "rejected":
+      case "Rejected":
         return (
           <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200">
             Rejected
