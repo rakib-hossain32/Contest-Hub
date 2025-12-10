@@ -4,9 +4,16 @@ import { motion } from "framer-motion";
 import { Users, Calendar } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 
-const ContestCard = ({ contest, index,  }) => {
-  const { name, image, participants, description, deadline, category, id } = contest;
-  const navigate = useNavigate()
+const ContestCard = ({ contest, index, }) => {
+  const {} = {};
+  const { name, image, participants = 0, description, deadline, type, _id } =
+    contest;
+  const navigate = useNavigate();
+
+  const deadlineDate = new Date(deadline);
+  const today = new Date();
+  const diffTime = deadlineDate - today; // difference in milliseconds
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert to days
 
   return (
     <motion.div
@@ -25,11 +32,16 @@ const ContestCard = ({ contest, index,  }) => {
         />
         {/* Category Badge */}
         <div className="absolute px-3 py-1 text-xs font-bold rounded-md shadow-sm top-3 left-3 bg-primary/90 backdrop-blur-sm text-primary-content">
-          {category}
+          {type}
         </div>
         {/* Deadline Tag */}
         <div className="absolute flex items-center gap-1 px-3 py-1 text-xs rounded-full shadow-md top-3 right-3 bg-primary text-primary-content">
-          <Calendar size={12} /> {deadline}
+          <Calendar size={12} />{" "}
+          {diffDays > 0
+            ? `${diffDays} days left`
+            : diffDays === 0
+            ? "Last day"
+            : "Expired"}
         </div>
       </div>
 
@@ -57,10 +69,10 @@ const ContestCard = ({ contest, index,  }) => {
 
           {/* Button */}
           <button
-            onClick={() => navigate(`/contest/${id}`)}
+            onClick={() => navigate(`/contest/${_id}`)}
             // to={"contests-details"}
 
-            className="w-full py-3 rounded-xl bg-primary text-primary-content font-medium hover:bg-primary/90 transition-all shadow-md hover:shadow-primary/30 active:scale-[0.98]"
+            className="w-full py-3 rounded-xl bg-primary text-primary-content font-medium hover:bg-primary/90 transition-all shadow-md hover:shadow-primary/30 cursor-pointer active:scale-[0.98]"
           >
             View Details
           </button>

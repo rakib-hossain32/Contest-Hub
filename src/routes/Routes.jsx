@@ -10,8 +10,6 @@ import ContestDetails from "../components/ContestDetails/ContestDetails";
 import Events from "../pages/Events/Events";
 import SuccessStories from "../pages/SuccessStories/SuccessStories";
 
-
-
 import PrivateRoute from "./PrivateRoute";
 import AddContest from "../pages/Dashboards/CreatorDashboard/AddContest/AddContest";
 import MyContests from "../pages/Dashboards/CreatorDashboard/MyContests/MyContests";
@@ -23,7 +21,6 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import { ParticipatedContests } from "../pages/Dashboards/UserDashboard/ParticipatedContests/ParticipatedContests";
 import { WinningContests } from "../pages/Dashboards/UserDashboard/WinningContests/WinningContests";
 import { UserProfile } from "../pages/Dashboards/UserDashboard/UserProfile/UserProfile";
-
 
 export const router = createBrowserRouter([
   {
@@ -50,7 +47,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contest/:id",
-        Component: ContestDetails,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <ContestDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/auth/login",
@@ -66,12 +68,12 @@ export const router = createBrowserRouter([
     path: "dashboard",
     element: (
       <PrivateRoute>
-       <DashboardLayout/>
+        <DashboardLayout />
       </PrivateRoute>
     ),
     children: [
       // user route
-      
+
       {
         path: "participated-contests",
         Component: ParticipatedContests,
@@ -86,7 +88,7 @@ export const router = createBrowserRouter([
       },
 
       // creator route
-     
+
       {
         path: "add-contest",
         Component: AddContest,
@@ -105,7 +107,7 @@ export const router = createBrowserRouter([
       },
 
       // admin route
-     
+
       {
         path: "users",
         Component: ManageUsers,

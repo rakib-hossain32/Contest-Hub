@@ -6,87 +6,101 @@ import ContestCard from "../../components/ContestCard/ContestCard";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "../../components/Loader/Loader";
 
 // --- Mock Data (Admin Approved Contests) ---
-const allContestsData = [
-  {
-    id: 101,
-    name: "Minimalist Logo Creation",
-    category: "Design",
-    image:
-      "https://images.unsplash.com/photo-1626785774573-4b799314348d?auto=format&fit=crop&w=800&q=80",
-    participants: 120,
-    description:
-      "Design a clean, memorable logo for a FinTech startup focusing on security.",
-    deadline: "2 Days left",
-  },
-  {
-    id: 102,
-    name: "Sci-Fi Short Story",
-    category: "Writing",
-    image:
-      "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
-    participants: 85,
-    description:
-      "Write a 2000-word story set in a post-apocalyptic world where plants rule.",
-    deadline: "5 Days left",
-  },
-  {
-    id: 103,
-    name: "SaaS Dashboard UI",
-    category: "Design",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    participants: 230,
-    description: "Create a dark-mode dashboard for a data analytics platform.",
-    deadline: "1 Week left",
-  },
-  {
-    id: 104,
-    name: "React Native App Challenge",
-    category: "Development",
-    image:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
-    participants: 150,
-    description:
-      "Build a fitness tracking app with geolocation features using React Native.",
-    deadline: "3 Days left",
-  },
-  {
-    id: 105,
-    name: "Portrait Photography",
-    category: "Photography",
-    image:
-      "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80",
-    participants: 95,
-    description:
-      "Capture raw emotions in black and white portrait photography.",
-    deadline: "12 Hours left",
-  },
-  {
-    id: 106,
-    name: "Python AI Chatbot",
-    category: "Development",
-    image:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
-    participants: 310,
-    description:
-      "Develop a customer support chatbot using Python and OpenAI API.",
-    deadline: "4 Days left",
-  },
-  {
-    id: 107,
-    name: "Travel Blog Writing",
-    category: "Writing",
-    image:
-      "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=800&q=80",
-    participants: 60,
-    description: "Share your best travel experience in a hidden gem location.",
-    deadline: "6 Days left",
-  },
-];
+// const allContestsData = [
+//   {
+//     id: 101,
+//     name: "Minimalist Logo Creation",
+//     category: "Design",
+//     image:
+//       "https://images.unsplash.com/photo-1626785774573-4b799314348d?auto=format&fit=crop&w=800&q=80",
+//     participants: 120,
+//     description:
+//       "Design a clean, memorable logo for a FinTech startup focusing on security.",
+//     deadline: "2 Days left",
+//   },
+//   {
+//     id: 102,
+//     name: "Sci-Fi Short Story",
+//     category: "Writing",
+//     image:
+//       "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+//     participants: 85,
+//     description:
+//       "Write a 2000-word story set in a post-apocalyptic world where plants rule.",
+//     deadline: "5 Days left",
+//   },
+//   {
+//     id: 103,
+//     name: "SaaS Dashboard UI",
+//     category: "Design",
+//     image:
+//       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+//     participants: 230,
+//     description: "Create a dark-mode dashboard for a data analytics platform.",
+//     deadline: "1 Week left",
+//   },
+//   {
+//     id: 104,
+//     name: "React Native App Challenge",
+//     category: "Development",
+//     image:
+//       "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
+//     participants: 150,
+//     description:
+//       "Build a fitness tracking app with geolocation features using React Native.",
+//     deadline: "3 Days left",
+//   },
+//   {
+//     id: 105,
+//     name: "Portrait Photography",
+//     category: "Photography",
+//     image:
+//       "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80",
+//     participants: 95,
+//     description:
+//       "Capture raw emotions in black and white portrait photography.",
+//     deadline: "12 Hours left",
+//   },
+//   {
+//     id: 106,
+//     name: "Python AI Chatbot",
+//     category: "Development",
+//     image:
+//       "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+//     participants: 310,
+//     description:
+//       "Develop a customer support chatbot using Python and OpenAI API.",
+//     deadline: "4 Days left",
+//   },
+//   {
+//     id: 107,
+//     name: "Travel Blog Writing",
+//     category: "Writing",
+//     image:
+//       "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=800&q=80",
+//     participants: 60,
+//     description: "Share your best travel experience in a hidden gem location.",
+//     deadline: "6 Days left",
+//   },
+// ];
 
-const categories = ["All", "Design", "Writing", "Development", "Photography"];
+const categories = [
+  "All",
+  "Photography",
+  "DataScience",
+  "Video",
+  "Marketing",
+  "AI",
+  "Programming",
+  "Article",
+  "Gaming",
+  "Design",
+  "Medical",
+  "Business",
+];
 
 export default function AllContests() {
   const navigate = useNavigate();
@@ -96,34 +110,54 @@ export default function AllContests() {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: contests = {} } = useQuery({
-    queryKey: ["all-contests", "approved"],
+  const { data: contests = [], isLoading } = useQuery({
+    queryKey: ["all-contests", "approved", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get("");
+      const res = await axiosSecure.get("/contests/all-users?status=Confirmed");
       return res.data;
     },
   });
 
+  console.log(contests);
+
   // Mock Auth (Replace with Context)
-  const isLoggedIn = false;
+  // const isLoggedIn = false;
 
   // Filter Logic
-  const filteredContests = allContestsData.filter((contest) => {
+  // const filteredContests = contests.filter((contest) => {
+  //   const matchesCategory = activeTab === "All" || contest.type === activeTab;
+  //   const matchesSearch = contest.name
+  //     .toLowerCase()
+  //     .includes(searchQuery.toLowerCase());
+  //   return matchesCategory && matchesSearch;
+  // });
+  // Filter Logic
+  // Filter Logic
+  const filteredContests = contests.filter((contest) => {
+    // Make sure contest.type exists and is a string
+    const contestType = contest.type ? contest.type.toLowerCase() : "";
+
     const matchesCategory =
-      activeTab === "All" || contest.category === activeTab;
+      activeTab === "All" || contestType.includes(activeTab.toLowerCase());
+
     const matchesSearch = contest.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
+
     return matchesCategory && matchesSearch;
   });
 
-  const handleDetailsClick = (id) => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      navigate(`/contest/${id}`);
-    }
-  };
+  // const handleDetailsClick = (id) => {
+  //   if (!isLoggedIn) {
+  //     navigate("/login");
+  //   } else {
+  //     navigate(`/contest/${id}`);
+  //   }
+  // };
+
+  if (loading || isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen pb-20">
@@ -196,9 +230,9 @@ export default function AllContests() {
             {filteredContests.length > 0 ? (
               filteredContests.map((contest) => (
                 <ContestCard
-                  key={contest.id}
+                  key={contest._id}
                   contest={contest}
-                  onDetails={() => handleDetailsClick(contest.id)}
+                  // onDetails={() => handleDetailsClick(contest.id)}
                 />
               ))
             ) : (
@@ -208,10 +242,10 @@ export default function AllContests() {
                 animate={{ opacity: 1 }}
                 className="py-20 text-center col-span-full"
               >
-                <div className="flex items-center justify-center w-20 h-20 mx-auto mb-4 text-gray-400 bg-gray-100 rounded-full">
+                <div className="flex items-center justify-center w-20 h-20 mx-auto mb-4 rounded-full bg-neutral text-base-100">
                   <Filter size={32} />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-700">
+                <h3 className="text-xl font-semibold ">
                   No contests found
                 </h3>
                 <p className="mt-2 text-gray-500">
