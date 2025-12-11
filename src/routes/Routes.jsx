@@ -21,6 +21,8 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import { ParticipatedContests } from "../pages/Dashboards/UserDashboard/ParticipatedContests/ParticipatedContests";
 import { WinningContests } from "../pages/Dashboards/UserDashboard/WinningContests/WinningContests";
 import { UserProfile } from "../pages/Dashboards/UserDashboard/UserProfile/UserProfile";
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
+import PaymentCancel from "../pages/PaymentCancel/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +55,14 @@ export const router = createBrowserRouter([
             <ContestDetails />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "contest/payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "contest/payment-cancelled",
+        Component: PaymentCancel,
       },
       {
         path: "/auth/login",

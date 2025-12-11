@@ -3,85 +3,102 @@ import { motion } from "framer-motion";
 import { Users, ArrowRight, Trophy, Calendar } from "lucide-react";
 import { useNavigate } from "react-router";
 import ContestCard from "../../../components/ContestCard/ContestCard";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Loader } from "../../../components/Loader/Loader";
 
 // Mock Data (Replace with API Data)
-const contestsData = [
-  {
-    id: 1,
-    name: "Article Writing Championship",
-    category: "Writing",
-    image:
-      "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    participants: 120,
-    description:
-      "Write a compelling article about the future of AI technology and its impact on society.",
-    deadline: "2 Days left",
-  },
-  {
-    id: 2,
-    name: "Modern UI/UX Design Challenge",
-    category: "Design",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    participants: 350,
-    description:
-      "Design a futuristic mobile app interface for a smart home system using glassmorphism.",
-    deadline: "5 Days left",
-  },
-  {
-    id: 3,
-    name: "Logo Design for EcoBrand",
-    category: "Design",
-    image:
-      "https://images.unsplash.com/photo-1626785774573-4b799314348d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    participants: 85,
-    description:
-      "Create a minimalist logo for a new eco-friendly clothing brand targeting Gen Z.",
-    deadline: "1 Week left",
-  },
-  {
-    id: 4,
-    name: "Photography: Urban Life",
-    category: "Photography",
-    image:
-      "https://images.unsplash.com/photo-1449824913929-2b3a641053c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    participants: 210,
-    description:
-      "Capture the essence of city life in a single frame. Black and white photos preferred.",
-    deadline: "3 Days left",
-  },
-  {
-    id: 5,
-    name: "Game Development Hackathon",
-    category: "Development",
-    image:
-      "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    participants: 450,
-    description:
-      "Build a playable 2D game prototype within 48 hours using Unity or Godot.",
-    deadline: "12 Hours left",
-  },
-  {
-    id: 6,
-    name: "Digital Art: Cyberpunk",
-    category: "art",
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    participants: 180,
-    description:
-      "Create a character concept art set in a dystopian cyberpunk universe.",
-    deadline: "4 Days left",
-  },
-];
+// const contestsData = [
+//   {
+//     id: 1,
+//     name: "Article Writing Championship",
+//     category: "Writing",
+//     image:
+//       "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+//     participants: 120,
+//     description:
+//       "Write a compelling article about the future of AI technology and its impact on society.",
+//     deadline: "2 Days left",
+//   },
+//   {
+//     id: 2,
+//     name: "Modern UI/UX Design Challenge",
+//     category: "Design",
+//     image:
+//       "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+//     participants: 350,
+//     description:
+//       "Design a futuristic mobile app interface for a smart home system using glassmorphism.",
+//     deadline: "5 Days left",
+//   },
+//   {
+//     id: 3,
+//     name: "Logo Design for EcoBrand",
+//     category: "Design",
+//     image:
+//       "https://images.unsplash.com/photo-1626785774573-4b799314348d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+//     participants: 85,
+//     description:
+//       "Create a minimalist logo for a new eco-friendly clothing brand targeting Gen Z.",
+//     deadline: "1 Week left",
+//   },
+//   {
+//     id: 4,
+//     name: "Photography: Urban Life",
+//     category: "Photography",
+//     image:
+//       "https://images.unsplash.com/photo-1449824913929-2b3a641053c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+//     participants: 210,
+//     description:
+//       "Capture the essence of city life in a single frame. Black and white photos preferred.",
+//     deadline: "3 Days left",
+//   },
+//   {
+//     id: 5,
+//     name: "Game Development Hackathon",
+//     category: "Development",
+//     image:
+//       "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+//     participants: 450,
+//     description:
+//       "Build a playable 2D game prototype within 48 hours using Unity or Godot.",
+//     deadline: "12 Hours left",
+//   },
+//   {
+//     id: 6,
+//     name: "Digital Art: Cyberpunk",
+//     category: "art",
+//     image:
+//       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+//     participants: 180,
+//     description:
+//       "Create a character concept art set in a dystopian cyberpunk universe.",
+//     deadline: "4 Days left",
+//   },
+// ];
 
 export default function PopularContests() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   // const isLoggedIn = false;
 
+  const { data: contests = [], isLoading } = useQuery({
+    queryKey: ["popular-contests", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        "/contests/popular-contests?status=Confirmed"
+      );
+      return res.data;
+    },
+  });
+  console.log(contests);
+
   // Sort by highest participation
-  const sortedContests = [...contestsData]
-    .sort((a, b) => b.participants - a.participants)
-    .slice(0, 6);
+  // const sortedContests = [...contestsData]
+  //   .sort((a, b) => b.participants - a.participants)
+  //   .slice(0, 6);
 
   // const handleDetailsClick = (id) => {
   //   if (!isLoggedIn) {
@@ -90,6 +107,9 @@ export default function PopularContests() {
   //     navigate(`/contest/${id}`);
   //   }
   // };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <section className="px-4 py-20 md:px-6 bg-base-100">
@@ -107,7 +127,7 @@ export default function PopularContests() {
 
         {/* Contests Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {sortedContests.map((contest, index) => (
+          {contests.map((contest, index) => (
             <ContestCard key={contest.id} contest={contest} index={index} />
           ))}
         </div>

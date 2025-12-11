@@ -18,6 +18,7 @@ import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../Loader/Loader";
+import useAuth from "../../hooks/useAuth";
 
 const TextRenderer = ({ text }) => {
   if (!text) return null;
@@ -45,6 +46,7 @@ const TextRenderer = ({ text }) => {
 export default function ContestDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const { data: contest = {}, isLoading } = useQuery({
@@ -93,7 +95,29 @@ export default function ContestDetails() {
     return () => clearInterval(timer);
   }, [contest]);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    const paymentInfo = {
+      contestId: contest._id,
+      contestName: contest.name,
+      contestPrice: contest.price,
+      contestImage: contest.image,
+      contestType: contest.type,
+      contestCreatorName: contest.creatorName,
+      contestDescription: contest.description,
+      participant: {
+        name: user?.displayName,
+        image: user?.photoURL,
+        email: user?.email,
+      },
+    };
+
+    const { data } = await axiosSecure.post(
+      "/create-checkout-session",
+      paymentInfo
+    );
+    window.location.href = data.url;
+    console.log(data.url);
+
     if (isEnded) return;
     const confirmPayment = window.confirm(
       `Proceed to pay $${contest.price} entry fee?`
