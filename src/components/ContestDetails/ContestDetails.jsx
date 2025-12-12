@@ -57,7 +57,6 @@ export default function ContestDetails() {
     },
   });
 
-  const [isRegistered, setIsRegistered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -104,8 +103,9 @@ export default function ContestDetails() {
       contestType: contest.type,
       contestCreatorName: contest.creatorName,
       contestDescription: contest.description,
+      contestDeadline: contest.deadline,
       participant: {
-        name: user?.displayName,
+        name: user?.displayNam,
         image: user?.photoURL,
         email: user?.email,
       },
@@ -116,17 +116,29 @@ export default function ContestDetails() {
       paymentInfo
     );
     window.location.href = data.url;
-    console.log(data.url);
+    // console.log(data.url);
 
-    if (isEnded) return;
-    const confirmPayment = window.confirm(
-      `Proceed to pay $${contest.price} entry fee?`
-    );
-    if (confirmPayment) {
-      setIsRegistered(true);
-      alert("Payment Successful! You are now registered.");
-    }
+    // if (isEnded) return;
+    // const confirmPayment = window.confirm(
+    //   `Proceed to pay $${contest.price} entry fee?`
+    // );
+    // if (confirmPayment) {
+    //   setIsRegistered(true);
+    //   alert("Payment Successful! You are now registered.");
+    // }
   };
+
+  const { data: paymentStatus = {} } = useQuery({
+    queryKey: ["payment-status", contest?._id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/payments/payment-status?contestId=${contest._id}&contestParticipantEmail=${user?.email}`
+      );
+      return res.data;
+    },
+  });
+  // console.log(contest._id);
+  // console.log(paymentStatus);
 
   const handleSubmitTask = (e) => {
     e.preventDefault();
@@ -377,7 +389,7 @@ export default function ContestDetails() {
                     >
                       <AlertCircle size={20} /> Contest Ended
                     </button>
-                  ) : isRegistered ? (
+                  ) : paymentStatus.paymentStatus ? (
                     <button
                       onClick={() => setIsModalOpen(true)}
                       className="flex items-center justify-center w-full gap-2 py-4 text-lg font-bold shadow-lg btn btn-primary shadow-primary/30 rounded-xl"
