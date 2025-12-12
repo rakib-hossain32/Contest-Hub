@@ -51,7 +51,7 @@ const ContestSubmissions = () => {
       email: submission.contestParticipantEmail,
       winningDate: new Date(),
     };
-    console.log(submission);
+    // console.log(submission);
 
     Swal.fire({
       title: "Are you sure?",

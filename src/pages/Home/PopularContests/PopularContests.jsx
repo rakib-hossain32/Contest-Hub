@@ -93,7 +93,7 @@ export default function PopularContests() {
       return res.data;
     },
   });
-  console.log(contests);
+  // console.log(contests);
 
   // Sort by highest participation
   // const sortedContests = [...contestsData]
@@ -128,7 +128,7 @@ export default function PopularContests() {
         {/* Contests Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {contests.map((contest, index) => (
-            <ContestCard key={contest.id} contest={contest} index={index} />
+            <ContestCard key={contest._id} contest={contest} index={index} />
           ))}
         </div>
 

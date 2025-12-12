@@ -57,7 +57,7 @@ const MyContests = () => {
     },
   });
 
-  console.log(contests);
+  // console.log(contests);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -69,7 +69,7 @@ const MyContests = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id);
+        // console.log(id);
         axiosSecure.delete(`/contests/${id}`).then((res) => {
           if (res.data.deletedCount) {
             refetch()

@@ -63,7 +63,7 @@ const ManageContests = () => {
   // console.log(data)
 
   const handleStatusChange = (id, newStatus) => {
-    console.log(id, newStatus);
+    // console.log(id, newStatus);
     const status = { newStatus };
 
     axiosSecure.patch(`/contests/${id}/admin`, status).then((res) => {
@@ -93,7 +93,7 @@ const ManageContests = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id);
+        // console.log(id);
         axiosSecure.delete(`/contests/${id}`).then((res) => {
           if (res.data.deletedCount) {
             refetch();

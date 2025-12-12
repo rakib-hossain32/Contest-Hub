@@ -292,6 +292,12 @@ export default function Navbar() {
               to="/all-contests"
               label="All Contests"
             />
+            <NavItem className="block" to="/events" label="Events" />
+            <NavItem
+              className="block"
+              to="/success-stories"
+              label="Success Stories"
+            />
             {/* <NavLink className="block px-4 py-3 hover:bg-base-200" to="/">
               Home
             </NavLink>

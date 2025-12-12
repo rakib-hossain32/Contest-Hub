@@ -37,7 +37,7 @@ const EditContest = () => {
   });
 
   const onSubmit = (data) => {
-    console.log("Updated Data:", data);
+    // console.log("Updated Data:", data);
     const id = data._id;
     axiosSecure.patch(`/contests/${id}/update`, data).then((res) => {
       if (res.data.modifiedCount) {

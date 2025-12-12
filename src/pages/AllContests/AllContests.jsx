@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Calendar, Filter, Search, Lock } from "lucide-react";
-import { useNavigate } from "react-router";
 import ContestCard from "../../components/ContestCard/ContestCard";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
@@ -103,7 +102,7 @@ const categories = [
 ];
 
 export default function AllContests() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -118,7 +117,7 @@ export default function AllContests() {
     },
   });
 
-  console.log(contests);
+  // console.log(contests);
 
   // Mock Auth (Replace with Context)
   // const isLoggedIn = false;

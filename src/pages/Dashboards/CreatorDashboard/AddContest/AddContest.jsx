@@ -20,13 +20,13 @@ const AddContest = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log("New Contest Data:", data);
+    // console.log("New Contest Data:", data);
     data.email = user?.email;
     data.creatorName = user?.displayName;
-    console.log(data);
+    // console.log(data);
 
     axiosSecure.post("/contests", data).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.insertedId) {
         navigate("/dashboard/my-contests");
         Swal.fire({

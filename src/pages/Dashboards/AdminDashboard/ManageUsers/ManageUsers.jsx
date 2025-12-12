@@ -50,7 +50,7 @@ const ManageUsers = () => {
   });
 
   const handleRoleChange = (userId, newRole) => {
-    console.log(userId, newRole);
+    // console.log(userId, newRole);
     const userRole = { role: newRole };
 
     axiosSecure.patch(`/users/${userId}`, userRole).then((res) => {

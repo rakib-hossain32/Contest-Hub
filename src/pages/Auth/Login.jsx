@@ -13,7 +13,7 @@ const Login = () => {
 
   const { register, handleSubmit } = useForm();
   const location = useLocation()
-  console.log(location)
+  // console.log(location)
 
   // const handleGoogleLogin = () => {
   //   googleLogin()

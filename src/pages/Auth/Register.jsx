@@ -39,7 +39,7 @@ const Register = () => {
   // };
 
   const handleRegister = (data) => {
-    console.log(data);
+    // console.log(data);
     const { name, email, password, photoURL } = data;
 
     createUser(email, password)

@@ -64,7 +64,7 @@ export const UserProfile = () => {
   const primaryColor = "#00b074";
 
   const onSubmit = (data) => {
-    console.log("Form Submitted Data:", data);
+    // console.log("Form Submitted Data:", data);
 
     axiosSecure.patch(`/users/${oneUser?._id}/info`, data).then((res) => {
       if (res.data.modifiedCount) {
