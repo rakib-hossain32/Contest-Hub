@@ -23,6 +23,7 @@ import { WinningContests } from "../pages/Dashboards/UserDashboard/WinningContes
 import { UserProfile } from "../pages/Dashboards/UserDashboard/UserProfile/UserProfile";
 import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancel from "../pages/PaymentCancel/PaymentCancel";
+import Leaderboard from "../pages/Leaderboard/Leaderboard";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: "/success-stories",
         Component: SuccessStories,
+      },
+      {
+        path: "/leader-board",
+        Component: Leaderboard,
       },
       {
         path: "/contest/:id",
