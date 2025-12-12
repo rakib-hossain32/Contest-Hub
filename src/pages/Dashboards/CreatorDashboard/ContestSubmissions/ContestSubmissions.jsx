@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   Trophy,
@@ -22,6 +21,7 @@ const ContestSubmissions = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
+  // Fetch Submitted Entries
   const { data: submittedContests = [] } = useQuery({
     queryKey: ["submissions-contests", user?.email],
     queryFn: async () => {
@@ -32,17 +32,27 @@ const ContestSubmissions = () => {
     },
   });
 
-  // console.log(submittedContests);
+  // Fetch Contest Winner (THIS IS NEW)
+  const { data: contestData = {}, refetch } = useQuery({
+    queryKey: ["contest", contestId],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/contests/${contestId}`);
+      return res.data;
+    },
+  });
 
-  // console.log(contestId);
-  const [winnerId, setWinnerId] = useState(null);
+  // console.log(contestData);
 
+  // Declare Winner Handler
   const handleDeclareWinner = (submission) => {
     const winner = {
       photo: submission.participantImage,
       name: submission.participantName,
+      email: submission.contestParticipantEmail,
+      winningDate: new Date(),
     };
-    console.log(winner);
+    console.log(submission);
+
     Swal.fire({
       title: "Are you sure?",
       text: `Confirm ${submission.participantName} as the winner?`,
@@ -50,23 +60,18 @@ const ContestSubmissions = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes !",
+      confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: "Your file has been deleted.",
-        //   icon: "success",
-        // });
         axiosSecure
           .patch(`/contests/${submission.contestId}/creator`, winner)
           .then((res) => {
             if (res.data.modifiedCount) {
-              setWinnerId(submission._id);
+              refetch();
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Winner has been Declare!",
+                title: "Winner has been declared!",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -74,10 +79,6 @@ const ContestSubmissions = () => {
           });
       }
     });
-
-    // if (winnerId) return;
-    // if (window.confirm(`Confirm ${submission.participantName} as the winner?`))
-    //   setWinnerId(submission.id);
   };
 
   return (
@@ -88,7 +89,7 @@ const ContestSubmissions = () => {
         <div className="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-secondary/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4"></div>
       </div>
 
-      <div className="relative max-w-6xl pt-8 mx-auto ">
+      <div className="relative max-w-6xl px-5 pt-8 mx-auto">
         {/* Header */}
         <div className="flex flex-col items-start justify-between gap-4 mb-10 md:flex-row md:items-center">
           <div className="flex items-center gap-4">
@@ -124,7 +125,7 @@ const ContestSubmissions = () => {
 
             <div
               className={`px-3 py-2 rounded-xl border ${
-                winnerId
+                contestData?.winner
                   ? "bg-accent/10 border-accent/20"
                   : "bg-base-200/50 border-transparent"
               }`}
@@ -134,10 +135,10 @@ const ContestSubmissions = () => {
               </span>
               <p
                 className={`text-lg font-black ${
-                  winnerId ? "text-accent" : "text-base-content/70"
+                  contestData?.winner ? "text-accent" : "text-base-content/70"
                 }`}
               >
-                {winnerId ? "Closed" : "Active"}
+                {contestData?.winner ? "Closed" : "Active"}
               </p>
             </div>
           </div>
@@ -158,8 +159,11 @@ const ContestSubmissions = () => {
           <div className="space-y-5">
             <AnimatePresence>
               {submittedContests.map((sub, i) => {
-                const isWinner = winnerId === sub._id;
-                const isLoser = winnerId && !isWinner;
+                const isWinner =
+                  contestData?.winner?.name === sub.participantName &&
+                  contestData?.winner?.photo === sub.participantImage;
+
+                const isLoser = contestData?.winner && !isWinner;
 
                 return (
                   <motion.div
@@ -169,7 +173,7 @@ const ContestSubmissions = () => {
                     animate={{
                       opacity: isLoser ? 0.5 : 1,
                       y: 0,
-                      scale: isWinner ? 1.02 : 1,
+                      scale: isWinner ? 1.03 : 1,
                     }}
                     transition={{ duration: 0.3, delay: i * 0.1 }}
                     className={`relative group p-1 rounded-4xl ${
@@ -180,13 +184,12 @@ const ContestSubmissions = () => {
                   >
                     {/* Card */}
                     <div
-                      className={`bg-base-100 rounded-[1.8rem] p-5  border flex flex-col gap-6 md:gap-8 transition ${
+                      className={`bg-base-100 rounded-[1.8rem] p-5 border flex flex-col gap-6 md:gap-8 transition  ${
                         isWinner
                           ? "border-transparent"
                           : "border-base-200 hover:border-primary/20 hover:shadow"
                       }`}
                     >
-                      {/* Grid Layout */}
                       <div className="grid items-center grid-cols-1 gap-3 md:grid-cols-3 md:gap-5">
                         {/* Profile */}
                         <div className="flex items-center gap-4">
@@ -215,7 +218,7 @@ const ContestSubmissions = () => {
                           </div>
                         </div>
 
-                        {/* Link + Date */}
+                        {/* Project Link + Date */}
                         <a
                           href={sub.submissionLink}
                           target="_blank"
@@ -230,7 +233,6 @@ const ContestSubmissions = () => {
                             </p>
 
                             <div className="flex items-center gap-3 mt-3 text-xs text-base-content/60">
-                              {/* Date Part */}
                               <span className="flex items-center gap-1">
                                 <Calendar size={12} />
                                 {new Date(sub.submittedAt).toLocaleDateString(
@@ -243,15 +245,11 @@ const ContestSubmissions = () => {
                                 )}
                               </span>
 
-                              {/* Time Part */}
                               <span className="flex items-center gap-1">
                                 <Clock size={12} />
                                 {new Date(sub.submittedAt).toLocaleTimeString(
                                   "en-US",
-                                  {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  }
+                                  { hour: "2-digit", minute: "2-digit" }
                                 )}
                               </span>
                             </div>
@@ -269,7 +267,7 @@ const ContestSubmissions = () => {
                                 Confirmed
                               </p>
                             </div>
-                          ) : winnerId ? (
+                          ) : contestData?.winner ? (
                             <div className="flex items-center gap-2 px-4 py-3 text-sm font-bold border rounded-xl bg-base-200/20 text-base-content/30">
                               <ShieldCheck size={16} /> Passed
                             </div>
