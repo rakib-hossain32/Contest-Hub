@@ -147,6 +147,8 @@ export default function ContestDetails() {
     const submittedInfo = {
       submitted: true,
       submissionLink: submissionLink,
+      participantName: user?.displayNam,
+      participantImage: user?.photoURL,
     };
 
     console.log(submissionLink);
