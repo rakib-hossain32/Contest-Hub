@@ -112,7 +112,7 @@ export default function PopularContests() {
   }
 
   return (
-    <section className="px-4 py-20 md:px-6 bg-base-100">
+    <section className="px-4 py-10 md:px-6 bg-base-100">
       <div className="container mx-auto">
         {/* Section Header */}
         <div className="mb-12 text-center">
