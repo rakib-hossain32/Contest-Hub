@@ -139,19 +139,21 @@ export default function ContestDetails() {
     },
   });
   // console.log(contest._id);
-  console.log(paymentStatus);
-
+  // console.log(paymentStatus);
+  // console.log(user);
   const handleSubmitTask = (e) => {
     e.preventDefault();
 
     const submittedInfo = {
       submitted: true,
       submissionLink: submissionLink,
-      participantName: user?.displayNam,
+      participantName: user?.displayName,
       participantImage: user?.photoURL,
+      submittedAt: new Date(),
     };
+    // console.log(submittedInfo);
 
-    console.log(submissionLink);
+    // console.log(submissionLink);
     axiosSecure
       .patch(
         `/payments/${paymentStatus._id}?contestParticipantEmail=${user?.email}`,

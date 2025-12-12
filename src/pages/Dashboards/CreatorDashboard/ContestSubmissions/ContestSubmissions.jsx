@@ -13,46 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-
-// --- Mock Data ---
-const MOCK_SUBMISSIONS = [
-  {
-    id: 101,
-    contestId: 1,
-    participantName: "Alice Smith",
-    email: "alice@design.co",
-    photo:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
-    taskInfo: "https://dribbble.com/shots/alice-design",
-    submittedAt: "Dec 12, 2025",
-    time: "10:30 AM",
-    status: "Pending",
-  },
-  {
-    id: 102,
-    contestId: 1,
-    participantName: "Robert Fox",
-    email: "robert@creative.com",
-    photo:
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=150&q=80",
-    taskInfo: "https://behance.net/robert-fox",
-    submittedAt: "Dec 13, 2025",
-    time: "02:15 PM",
-    status: "Pending",
-  },
-  {
-    id: 103,
-    contestId: 1,
-    participantName: "Charlie Day",
-    email: "charlie@studio.io",
-    photo:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
-    taskInfo: "https://drive.google.com/file/xyz",
-    submittedAt: "Dec 14, 2025",
-    time: "09:45 AM",
-    status: "Pending",
-  },
-];
+import Swal from "sweetalert2";
 
 const ContestSubmissions = () => {
   const navigate = useNavigate();
@@ -71,16 +32,52 @@ const ContestSubmissions = () => {
     },
   });
 
-  console.log(submittedContests)
+  // console.log(submittedContests);
 
-  console.log(contestId);
+  // console.log(contestId);
   const [winnerId, setWinnerId] = useState(null);
-  const submissions = MOCK_SUBMISSIONS;
 
   const handleDeclareWinner = (submission) => {
-    if (winnerId) return;
-    if (window.confirm(`Confirm ${submission.participantName} as the winner?`))
-      setWinnerId(submission.id);
+    const winner = {
+      photo: submission.participantImage,
+      name: submission.participantName,
+    };
+    console.log(winner);
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Confirm ${submission.participantName} as the winner?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes !",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+        axiosSecure
+          .patch(`/contests/${submission.contestId}/creator`, winner)
+          .then((res) => {
+            if (res.data.modifiedCount) {
+              setWinnerId(submission._id);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Winner has been Declare!",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          });
+      }
+    });
+
+    // if (winnerId) return;
+    // if (window.confirm(`Confirm ${submission.participantName} as the winner?`))
+    //   setWinnerId(submission.id);
   };
 
   return (
@@ -91,7 +88,7 @@ const ContestSubmissions = () => {
         <div className="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-secondary/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4"></div>
       </div>
 
-      <div className="relative max-w-6xl px-4 pt-8 mx-auto md:px-8">
+      <div className="relative max-w-6xl pt-8 mx-auto ">
         {/* Header */}
         <div className="flex flex-col items-start justify-between gap-4 mb-10 md:flex-row md:items-center">
           <div className="flex items-center gap-4">
@@ -108,7 +105,7 @@ const ContestSubmissions = () => {
               <p className="mt-1 text-sm text-base-content/60">
                 Manage entries for{" "}
                 <span className="font-semibold text-primary">
-                  Contest #{submissions[0]?.contestId || "001"}
+                  Contest #{contestId}
                 </span>
               </p>
             </div>
@@ -121,7 +118,7 @@ const ContestSubmissions = () => {
                 Entries
               </span>
               <p className="text-lg font-black text-primary">
-                {submissions.length}
+                {submittedContests.length}
               </p>
             </div>
 
@@ -147,7 +144,7 @@ const ContestSubmissions = () => {
         </div>
 
         {/* No Submission */}
-        {submissions.length === 0 ? (
+        {submittedContests.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 border border-dashed bg-base-200/30 border-base-300 rounded-4xl">
             <FileText className="w-12 h-12 text-base-content/30" />
             <h3 className="mt-3 text-xl font-bold text-base-content/70">
@@ -160,13 +157,13 @@ const ContestSubmissions = () => {
         ) : (
           <div className="space-y-5">
             <AnimatePresence>
-              {submissions.map((sub, i) => {
-                const isWinner = winnerId === sub.id;
+              {submittedContests.map((sub, i) => {
+                const isWinner = winnerId === sub._id;
                 const isLoser = winnerId && !isWinner;
 
                 return (
                   <motion.div
-                    key={sub.id}
+                    key={sub._id}
                     layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{
@@ -183,7 +180,7 @@ const ContestSubmissions = () => {
                   >
                     {/* Card */}
                     <div
-                      className={`bg-base-100 rounded-[1.8rem] p-5 md:p-8 border flex flex-col gap-6 md:gap-8 transition ${
+                      className={`bg-base-100 rounded-[1.8rem] p-5  border flex flex-col gap-6 md:gap-8 transition ${
                         isWinner
                           ? "border-transparent"
                           : "border-base-200 hover:border-primary/20 hover:shadow"
@@ -200,7 +197,7 @@ const ContestSubmissions = () => {
                                   ? "ring-4 ring-accent ring-offset-2"
                                   : ""
                               }`}
-                              src={sub.photo}
+                              src={sub.participantImage}
                             />
                             {isWinner && (
                               <div className="absolute -top-2 -right-2 bg-accent text-white p-1.5 rounded-full">
@@ -213,14 +210,14 @@ const ContestSubmissions = () => {
                               {sub.participantName}
                             </h3>
                             <p className="flex items-center gap-2 text-sm truncate text-base-content/50 max-w-40">
-                              <Mail size={12} /> {sub.email}
+                              <Mail size={12} /> {sub.contestParticipantEmail}
                             </p>
                           </div>
                         </div>
 
                         {/* Link + Date */}
                         <a
-                          href={sub.taskInfo}
+                          href={sub.submissionLink}
                           target="_blank"
                           className="block"
                         >
@@ -229,15 +226,33 @@ const ContestSubmissions = () => {
                               Project Link
                             </p>
                             <p className="font-semibold truncate">
-                              {sub.taskInfo.replace(/^https?:\/\//, "")}
+                              {sub.submissionLink}
                             </p>
 
                             <div className="flex items-center gap-3 mt-3 text-xs text-base-content/60">
+                              {/* Date Part */}
                               <span className="flex items-center gap-1">
-                                <Calendar size={10} /> {sub.submittedAt}
+                                <Calendar size={12} />
+                                {new Date(sub.submittedAt).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }
+                                )}
                               </span>
+
+                              {/* Time Part */}
                               <span className="flex items-center gap-1">
-                                <Clock size={10} /> {sub.time}
+                                <Clock size={12} />
+                                {new Date(sub.submittedAt).toLocaleTimeString(
+                                  "en-US",
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )}
                               </span>
                             </div>
                           </div>

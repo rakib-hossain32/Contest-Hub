@@ -19,9 +19,9 @@ const PaymentSuccess = () => {
   const [paymentInfo, setPaymentInfo] = useState({});
 
   const sessionId = searchParams.get("session_id");
-  const transactionId =
-    searchParams.get("txn_id") ||
-    "TXN_" + Math.random().toString(36).substr(2, 9).toUpperCase();
+  // const transactionId =
+  //   searchParams.get("txn_id") ||
+  //   "TXN_" + Math.random().toString(36).substr(2, 9).toUpperCase();
 
   useEffect(() => {
     if (sessionId) {
@@ -127,10 +127,10 @@ const PaymentSuccess = () => {
           {/* Action Buttons */}
           <div className="grid gap-3 p-6 border-t bg-base-200/30 border-base-200">
             <Link
-              to="/dashboard"
+              to={`/contest/${paymentInfo.contestId}`}
               className="w-full text-lg shadow-lg btn btn-primary shadow-primary/20"
             >
-              Go to Dashboard <ArrowRight size={20} />
+              Go to Contest <ArrowRight size={20} />
             </Link>
 
             <div className="grid grid-cols-2 gap-3">
