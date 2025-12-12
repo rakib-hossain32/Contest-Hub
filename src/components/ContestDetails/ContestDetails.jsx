@@ -19,6 +19,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../Loader/Loader";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const TextRenderer = ({ text }) => {
   if (!text) return null;
@@ -128,7 +129,7 @@ export default function ContestDetails() {
     // }
   };
 
-  const { data: paymentStatus = {} } = useQuery({
+  const { data: paymentStatus = {}, refetch } = useQuery({
     queryKey: ["payment-status", contest?._id],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -138,15 +139,39 @@ export default function ContestDetails() {
     },
   });
   // console.log(contest._id);
-  // console.log(paymentStatus);
+  console.log(paymentStatus);
 
   const handleSubmitTask = (e) => {
     e.preventDefault();
+
+    const submittedInfo = {
+      submitted: true,
+      submissionLink: submissionLink,
+    };
+
+    console.log(submissionLink);
+    axiosSecure
+      .patch(
+        `/payments/${paymentStatus._id}?contestParticipantEmail=${user?.email}`,
+        submittedInfo
+      )
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Task submitted successfully! Good luck.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
       setIsModalOpen(false);
-      alert("Task submitted successfully! Good luck.");
     }, 1500);
   };
 
@@ -391,10 +416,14 @@ export default function ContestDetails() {
                     </button>
                   ) : paymentStatus.paymentStatus ? (
                     <button
+                      disabled={paymentStatus.submitted}
                       onClick={() => setIsModalOpen(true)}
-                      className="flex items-center justify-center w-full gap-2 py-4 text-lg font-bold shadow-lg btn btn-primary shadow-primary/30 rounded-xl"
+                      className="flex items-center justify-center w-full gap-2 py-4 text-lg font-bold shadow-lg btn btn-primary shadow-primary/30 rounded-xl disabled:bg-warning/80 disabled:text-neutral/30 disabled:cursor-not-allowed"
                     >
-                      <Upload size={20} /> Submit Work
+                      <Upload size={20} />{" "}
+                      {paymentStatus.submitted
+                        ? "Already Submitted"
+                        : "Submit Work"}
                     </button>
                   ) : (
                     <button

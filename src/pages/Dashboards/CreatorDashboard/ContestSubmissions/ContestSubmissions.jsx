@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   Trophy,
   ExternalLink,
@@ -10,6 +10,9 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 // --- Mock Data ---
 const MOCK_SUBMISSIONS = [
@@ -53,6 +56,24 @@ const MOCK_SUBMISSIONS = [
 
 const ContestSubmissions = () => {
   const navigate = useNavigate();
+  const { contestId } = useParams();
+
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+
+  const { data: submittedContests = [] } = useQuery({
+    queryKey: ["submissions-contests", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/payments/task-submitted?contestId=${contestId}`
+      );
+      return res.data;
+    },
+  });
+
+  console.log(submittedContests)
+
+  console.log(contestId);
   const [winnerId, setWinnerId] = useState(null);
   const submissions = MOCK_SUBMISSIONS;
 
