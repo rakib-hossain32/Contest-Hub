@@ -10,36 +10,7 @@ import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Loader } from "../../../../components/Loader/Loader";
-
-// --- Mock Data ---
-const MOCK_CONTESTS = [
-  {
-    id: 1,
-    name: "Minimalist Logo Design",
-    image:
-      "https://images.unsplash.com/photo-1626785774573-4b799314348d?auto=format&fit=crop&w=100&q=80",
-    description: "Create a clean, modern logo for a tech startup.",
-    price: 50,
-    prizeMoney: 300,
-    instructions: "Use blue and white colors. Keep it simple.",
-    type: "Design",
-    deadline: "2024-12-30", // Changed to string for simpler handling with HTML input
-    status: "pending", // pending, confirmed, rejected
-  },
-  {
-    id: 2,
-    name: "Summer Photography",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=100&q=80",
-    description: "Capture the essence of summer.",
-    price: 20,
-    prizeMoney: 150,
-    instructions: "High resolution only. No heavy filters.",
-    type: "Photography",
-    deadline: "2023-11-01",
-    status: "confirmed",
-  },
-];
+import { toast } from "react-toastify";
 
 const MyContests = () => {
   // const [contests, setContests] = useState(MOCK_CONTESTS);
@@ -47,7 +18,11 @@ const MyContests = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
-  const { data: contests = [], isLoading, refetch } = useQuery({
+  const {
+    data: contests = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["my-contests", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -70,16 +45,21 @@ const MyContests = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // console.log(id);
-        axiosSecure.delete(`/contests/${id}`).then((res) => {
-          if (res.data.deletedCount) {
-            refetch()
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your contest has been deleted.",
-              icon: "success",
-            });
-          }
-        });
+        axiosSecure
+          .delete(`/contests/creator/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount) {
+              refetch();
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your contest has been deleted.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((e) => {
+            toast.error(e.message);
+          });
       }
     });
   };
@@ -123,7 +103,7 @@ const MyContests = () => {
   };
 
   if (isLoading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   return (

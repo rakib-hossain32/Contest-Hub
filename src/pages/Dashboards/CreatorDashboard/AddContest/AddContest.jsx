@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useAuth from "../../../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const AddContest = () => {
   const axiosSecure = useAxiosSecure();
@@ -25,19 +26,24 @@ const AddContest = () => {
     data.creatorName = user?.displayName;
     // console.log(data);
 
-    axiosSecure.post("/contests", data).then((res) => {
-      // console.log(res.data);
-      if (res.data.insertedId) {
-        navigate("/dashboard/my-contests");
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "New Contest Created",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+    axiosSecure
+      .post("/contests", data)
+      .then((res) => {
+        // console.log(res.data);
+        if (res.data.insertedId) {
+          navigate("/dashboard/my-contests");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "New Contest Created",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error(e.message);
+      });
     // alert("Contest created successfully! (Mock Action)");
     // navigate("/dashboard/my-contests");
   };

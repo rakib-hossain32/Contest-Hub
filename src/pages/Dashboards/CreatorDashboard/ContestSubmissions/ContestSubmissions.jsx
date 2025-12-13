@@ -13,6 +13,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const ContestSubmissions = () => {
   const navigate = useNavigate();
@@ -79,6 +80,9 @@ const ContestSubmissions = () => {
                 timer: 1500,
               });
             }
+          })
+          .catch((e) => {
+            toast.error(e.message);
           });
       }
     });

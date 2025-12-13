@@ -17,6 +17,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Loader } from "../../../../components/Loader/Loader";
+import { toast } from "react-toastify";
 
 export const UserProfile = () => {
   const { user } = useAuth();
@@ -66,18 +67,23 @@ export const UserProfile = () => {
   const onSubmit = (data) => {
     // console.log("Form Submitted Data:", data);
 
-    axiosSecure.patch(`/users/${oneUser?._id}/info`, data).then((res) => {
-      if (res.data.modifiedCount) {
-        refetch();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Profile has been updated",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+    axiosSecure
+      .patch(`/users/${oneUser?._id}/info`, data)
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Profile has been updated",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error(e.message);
+      });
 
     setIsEditing(false);
   };

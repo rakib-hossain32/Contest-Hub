@@ -24,6 +24,9 @@ import { UserProfile } from "../pages/Dashboards/UserDashboard/UserProfile/UserP
 import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancel from "../pages/PaymentCancel/PaymentCancel";
 import Leaderboard from "../pages/Leaderboard/Leaderboard";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
+import CreatorRoute from "./CreatorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -91,45 +94,94 @@ export const router = createBrowserRouter([
 
       {
         path: "participated-contests",
-        Component: ParticipatedContests,
+        // Component: ParticipatedContests,
+        element: (
+          <UserRoute>
+            {" "}
+            <ParticipatedContests />
+          </UserRoute>
+        ),
       },
       {
         path: "winning",
-        Component: WinningContests,
+        // Component: WinningContests,
+        element: (
+          <UserRoute>
+            <WinningContests />
+          </UserRoute>
+        ),
       },
       {
         path: "profile",
-        Component: UserProfile,
+        // Component: UserProfile,
+        element: (
+          <UserRoute>
+            {" "}
+            <UserProfile />
+          </UserRoute>
+        ),
       },
 
       // creator route
 
       {
         path: "add-contest",
-        Component: AddContest,
+        // Component: AddContest,
+        element: (
+          <CreatorRoute>
+            {" "}
+            <AddContest />
+          </CreatorRoute>
+        ),
       },
       {
         path: "my-contests",
-        Component: MyContests,
+        // Component: MyContests,
+        element: (
+          <CreatorRoute>
+            {" "}
+            <MyContests />
+          </CreatorRoute>
+        ),
       },
       {
         path: "submissions/:contestId",
-        Component: ContestSubmissions,
+        // Component: ContestSubmissions,
+        element: (
+          <CreatorRoute>
+            <ContestSubmissions />
+          </CreatorRoute>
+        ),
       },
       {
         path: "edit-contest/:id",
-        Component: EditContest,
+        // Component: EditContest,
+        element: (
+          <CreatorRoute>
+            <EditContest />
+          </CreatorRoute>
+        ),
       },
 
       // admin route
 
       {
         path: "users",
-        Component: ManageUsers,
+        // Component: ManageUsers,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "contests",
-        Component: ManageContests,
+        // Component: ManageContests,
+        element: (
+          <AdminRoute>
+            <ManageContests />
+          </AdminRoute>
+        ),
       },
     ],
   },

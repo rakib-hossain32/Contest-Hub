@@ -14,12 +14,13 @@ import {
   ShieldCheck,
   FileText,
 } from "lucide-react";
-import { useNavigate, useParams } from "react-router";
+import {  useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../Loader/Loader";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const TextRenderer = ({ text }) => {
   if (!text) return null;
@@ -45,7 +46,7 @@ const TextRenderer = ({ text }) => {
 };
 
 export default function ContestDetails() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -170,6 +171,9 @@ export default function ContestDetails() {
             timer: 1500,
           });
         }
+      })
+      .catch((e) => {
+        toast.error(e.message);
       });
 
     setIsSubmitting(true);

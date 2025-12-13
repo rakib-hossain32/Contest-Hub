@@ -4,43 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Loader } from "../../../../components/Loader/Loader";
+import { toast } from "react-toastify";
 
-// --- Mock Data ---
 
-const INITIAL_CONTESTS = [
-  {
-    id: 101,
-    title: "Summer Photography",
-    creator: "Alice Creator",
-    fee: 50,
-    prize: 500,
-    status: "pending",
-  },
-  {
-    id: 102,
-    title: "Tech Logo Design",
-    creator: "Creative Studio",
-    fee: 100,
-    prize: 1000,
-    status: "confirmed",
-  },
-  {
-    id: 103,
-    title: "Short Story Writing",
-    creator: "Book Worms",
-    fee: 20,
-    prize: 150,
-    status: "pending",
-  },
-  {
-    id: 104,
-    title: "Spam Contest 101",
-    creator: "Unknown",
-    fee: 0,
-    prize: 0,
-    status: "rejected",
-  },
-];
 
 const ManageContests = () => {
   // const [contests, setContests] = useState(INITIAL_CONTESTS);
@@ -66,18 +32,23 @@ const ManageContests = () => {
     // console.log(id, newStatus);
     const status = { newStatus };
 
-    axiosSecure.patch(`/contests/${id}/admin`, status).then((res) => {
-      if (res.data.modifiedCount) {
-        refetch();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Contest has been ${newStatus}`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+    axiosSecure
+      .patch(`/contests/${id}/admin`, status)
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: `Contest has been ${newStatus}`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error(e.message);
+      });
     // setContests(
     //   contests.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
     // );
@@ -94,16 +65,21 @@ const ManageContests = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // console.log(id);
-        axiosSecure.delete(`/contests/${id}`).then((res) => {
-          if (res.data.deletedCount) {
-            refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your contest has been deleted.",
-              icon: "success",
-            });
-          }
-        });
+        axiosSecure
+          .delete(`/contests/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount) {
+              refetch();
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your contest has been deleted.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((e) => {
+            toast.error(e.message);
+          });
       }
     });
 

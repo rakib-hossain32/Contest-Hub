@@ -2,6 +2,7 @@ import { UserCog } from "lucide-react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 // // --- Mock Data ---
 
@@ -53,15 +54,20 @@ const ManageUsers = () => {
     // console.log(userId, newRole);
     const userRole = { role: newRole };
 
-    axiosSecure.patch(`/users/${userId}`, userRole).then((res) => {
-      if (res.data.modifiedCount) {
-        refetch();
-        Swal.fire({
-          title: `Marked as an ${newRole}`,
-          icon: "success",
-        });
-      }
-    });
+    axiosSecure
+      .patch(`/users/${userId}`, userRole)
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            title: `Marked as an ${newRole}`,
+            icon: "success",
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error(e.message);
+      });
     // // In a real app, API call here
     // setUsers(
     //   users.map((user) =>

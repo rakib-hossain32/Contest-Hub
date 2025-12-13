@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from "lucide-react";
 import Swal from "sweetalert2";
 import { Loader } from "../../../../components/Loader/Loader";
+import { toast } from "react-toastify";
 
 const EditContest = () => {
   const axiosSecure = useAxiosSecure();
@@ -23,7 +24,7 @@ const EditContest = () => {
     },
   });
 
-  // console.log(data);
+  console.log(contest);
   // Simulate fetching data
   // const contestData = MOCK_CONTESTS.find((c) => c.id === parseInt(id));
 
@@ -39,25 +40,34 @@ const EditContest = () => {
   const onSubmit = (data) => {
     // console.log("Updated Data:", data);
     const id = data._id;
-    axiosSecure.patch(`/contests/${id}/update`, data).then((res) => {
-      if (res.data.modifiedCount) {
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "Contest Updated",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+    axiosSecure
+      .patch(`/contests/${id}/update`, data)
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          navigate("/dashboard/my-contests")
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Contest Updated",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      })
+      .catch((e) => {
+        toast.error(e.message);
+      });
     // alert("Contest updated successfully!");
     // navigate("/dashboard/my-contests");
   };
 
   if (isLoading) {
-    return <Loader/>
+    return <Loader />;
   }
-  if (!contest) return <div className="flex items-center justify-center">Contest not found</div>;
+  if (!contest)
+    return (
+      <div className="flex items-center justify-center">Contest not found</div>
+    );
 
   return (
     <div className="w-full ">
