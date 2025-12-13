@@ -68,6 +68,9 @@ const ContestSubmissions = () => {
           .then((res) => {
             if (res.data.modifiedCount) {
               refetch();
+              axiosSecure.patch(
+                `/users/win-count/${submission.contestParticipantEmail}`
+              );
               Swal.fire({
                 position: "center",
                 icon: "success",

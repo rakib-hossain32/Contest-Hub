@@ -16,7 +16,7 @@ import {
   Home,
   Zap,
 } from "lucide-react";
-import { NavLink, useNavigate } from "react-router"; // Ensure react-router-dom is installed
+import { NavLink,  } from "react-router"; 
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import useAuth from "../../hooks/useAuth";
 import { Loader } from "../Loader/Loader";
@@ -27,7 +27,6 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
 
   
   const { user, loading, logOutUser } = useAuth();
