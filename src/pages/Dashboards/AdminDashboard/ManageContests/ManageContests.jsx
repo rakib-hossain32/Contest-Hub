@@ -1,4 +1,12 @@
-import { CheckCircle, XCircle, Trash2, AlertCircle } from "lucide-react";
+import React, { useState } from "react";
+import {
+  CheckCircle,
+  XCircle,
+  Trash2,
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../../hooks/useAuth";
@@ -6,13 +14,13 @@ import Swal from "sweetalert2";
 import { Loader } from "../../../../components/Loader/Loader";
 import { toast } from "react-toastify";
 
-
-
 const ManageContests = () => {
-  // const [contests, setContests] = useState(INITIAL_CONTESTS);
-
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+
+  // --- Pagination State ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const {
     data: contests = [],
@@ -26,10 +34,16 @@ const ManageContests = () => {
     },
   });
 
-  // console.log(data)
+  // --- Pagination Logic ---
+  const totalPages = Math.ceil(contests.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentContests = contests.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleStatusChange = (id, newStatus) => {
-    // console.log(id, newStatus);
     const status = { newStatus };
 
     axiosSecure
@@ -49,9 +63,6 @@ const ManageContests = () => {
       .catch((e) => {
         toast.error(e.message);
       });
-    // setContests(
-    //   contests.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
-    // );
   };
 
   const handleDelete = (id) => {
@@ -64,7 +75,6 @@ const ManageContests = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // console.log(id);
         axiosSecure
           .delete(`/contests/${id}`)
           .then((res) => {
@@ -82,10 +92,6 @@ const ManageContests = () => {
           });
       }
     });
-
-    {
-      // setContests(contests.filter((c) => c.id !== id));
-    }
   };
 
   const getStatusBadge = (status) => {
@@ -118,19 +124,22 @@ const ManageContests = () => {
   }
 
   return (
-    <div className="space-y-6 ">
-      <div>
-        <h2 className="text-2xl font-bold text-neutral">Manage Contests</h2>
-        <p className="text-sm text-slate-500">
-          Review, approve, or remove contests submitted by creators.
-        </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-neutral">Manage Contests</h2>
+          <p className="text-sm text-slate-500">
+            Review, approve, or remove contests. Total: {contests.length}
+          </p>
+        </div>
       </div>
 
-      <div className="overflow-hidden border shadow-sm border-secondary/30 bg-base-100 rounded-xl">
+      <div className="mb-10 overflow-hidden border shadow-sm border-secondary/30 bg-base-100 rounded-xl">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-neutral">
             <thead className="text-xs font-semibold uppercase border-b bg-base-100 text-neutral border-secondary">
               <tr>
+                <th className="px-6 py-4">#</th>
                 <th className="px-6 py-4">Contest Title</th>
                 <th className="px-6 py-4">Creator</th>
                 <th className="px-6 py-4">Fee / Prize</th>
@@ -139,15 +148,18 @@ const ManageContests = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-secondary/50">
-              {contests.map((contest) => (
+              {currentContests.map((contest, index) => (
                 <tr
                   key={contest._id}
                   className="transition-colors hover:bg-secondary/10"
                 >
+                  <td className="px-6 py-4 font-medium text-neutral/60">
+                    {startIndex + index + 1}
+                  </td>
                   <td className="px-6 py-4 font-medium text-neutral">
                     {contest.name}
                     <div className="text-xs font-normal text-gray-400">
-                      ID: #{contest._id}
+                      ID: #{contest._id.slice(-6)}...
                     </div>
                   </td>
                   <td className="px-6 py-4 text-neutral">
@@ -207,7 +219,7 @@ const ManageContests = () => {
               ))}
               {contests.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="py-8 text-center text-gray-400">
+                  <td colSpan="6" className="py-8 text-center text-gray-400">
                     No contests found.
                   </td>
                 </tr>
@@ -215,6 +227,52 @@ const ManageContests = () => {
             </tbody>
           </table>
         </div>
+
+        {/* --- Pagination Controls --- */}
+        {contests.length > itemsPerPage && (
+          <div className="flex items-center justify-between px-6 py-4 border-t border-secondary/30 bg-base-100 ">
+            <span className="text-xs text-neutral/60">
+              Showing {startIndex + 1} to{" "}
+              {Math.min(startIndex + itemsPerPage, contests.length)} of{" "}
+              {contests.length} entries
+            </span>
+
+            <div className="flex items-center gap-2 ">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="p-2 text-sm font-medium transition rounded-lg text-neutral hover:bg-secondary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`w-8 h-8 flex items-center justify-center rounded-lg text-xs font-bold transition ${
+                      currentPage === page
+                        ? "bg-primary text-white shadow-md"
+                        : "text-neutral hover:bg-secondary/20"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="p-2 text-sm font-medium transition rounded-lg text-neutral hover:bg-secondary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
