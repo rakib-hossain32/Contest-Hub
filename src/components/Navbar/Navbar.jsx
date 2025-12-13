@@ -128,7 +128,7 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className={`flex items-center gap-2 p-1 pr-2 rounded-full border transition-all ${
+                className={`flex items-center gap-2 p-1 pr-2 rounded-full border transition-all cursor-pointer ${
                   scrolled
                     ? "border-transparent hover:bg-base-200"
                     : "border-transparent hover:bg-white/10"
@@ -178,13 +178,13 @@ export default function Navbar() {
                         onClick={() => setShowDropdown(false)}
                       />
                       <DropdownLink
-                        to="/profile"
+                        to="/"
                         icon={<User size={16} />}
                         label="Profile"
                         onClick={() => setShowDropdown(false)}
                       />
                       <DropdownLink
-                        to="/settings"
+                        to="/"
                         icon={<Settings size={16} />}
                         label="Settings"
                         onClick={() => setShowDropdown(false)}

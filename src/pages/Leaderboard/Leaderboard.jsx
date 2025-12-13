@@ -25,18 +25,20 @@ export default function Leaderboard() {
     },
   });
 
-  // --- Data Loading, Filtering & Sorting Logic ---
+  
   useEffect(() => {
     if (allUsers.length > 0) {
-      // ১. শুধুমাত্র 'user' রোল ফিল্টার করা হচ্ছে (Admin/Creator বাদ)
-      const onlyUsers = allUsers.filter((user) => user.role === "user");
+     
+      const winningUsers = allUsers.filter(
+        (user) => user.role === "user" && (user.winCount || 0) > 0
+      );
 
-      // ২. উইন কাউন্ট অনুযায়ী সর্টিং (বেশি থেকে কম)
-      const sortedData = [...onlyUsers].sort(
+    
+      const sortedData = [...winningUsers].sort(
         (a, b) => (b.winCount || 0) - (a.winCount || 0)
       );
 
-      // ৩. র‍্যাংক অ্যাসাইন করা
+    
       const rankedData = sortedData.map((user, index) => ({
         ...user,
         rank: index + 1,
@@ -51,7 +53,7 @@ export default function Leaderboard() {
     user.displayName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Split Top 3 and Rest
+  
   const topThree = filteredUsers.slice(0, 3);
   const restUsers = filteredUsers.slice(3);
 
@@ -85,7 +87,8 @@ export default function Leaderboard() {
               Contest Leaderboard
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-gray-400">
-              Celebrating our top performing users based on contest wins.
+              Celebrating our top winners. Only users with at least one win are
+              shown here.
             </p>
           </motion.div>
         </div>
@@ -93,64 +96,79 @@ export default function Leaderboard() {
 
       {/* --- Main Content --- */}
       <div className="container relative z-20 px-4 mx-auto -mt-20 md:px-6">
-        {/* Podium Section (Top 3) */}
-        {filteredUsers.length >= 3 && !searchQuery && (
-          <div className="flex flex-col items-center justify-center gap-6 mb-16 md:flex-row">
-            <PodiumCard user={topThree[1]} place={2} delay={0.2} />
-            <PodiumCard user={topThree[0]} place={1} delay={0} />
-            <PodiumCard user={topThree[2]} place={3} delay={0.4} />
+        {users.length === 0 ? (
+          // --- Empty State ---
+          <div className="flex flex-col items-center justify-center p-12 text-center bg-white border shadow-xl rounded-2xl border-base-200">
+            <Trophy size={64} className="mb-4 text-base-300" />
+            <h3 className="text-xl font-bold text-neutral">No Winners Yet!</h3>
+            <p className="text-gray-500">
+              Be the first one to win a contest and appear on the leaderboard.
+            </p>
           </div>
-        )}
-
-        {/* Controls (Search) */}
-        <div className="flex flex-col items-center justify-between max-w-5xl gap-4 p-4 mx-auto mb-8 border shadow-xl border-base-300 rounded-2xl md:flex-row bg-base-100">
-          <h3 className="flex items-center gap-2 text-lg font-bold text-neutral">
-            <TrendingUp size={20} className="text-[#1D4ED8]" />
-            All Rankings
-          </h3>
-
-          <div className="relative w-full md:w-80 ">
-            <Search
-              className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2"
-              size={18}
-            />
-            <input
-              type="text"
-              placeholder="Search by name..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 text-neutral bg-base-100 border border-base-300 rounded-xl focus:outline-none focus:border-[#1D4ED8] focus:ring-2 focus:ring-blue-100 transition-all"
-            />
-          </div>
-        </div>
-
-        {/* List Section (Rest of Users) */}
-        <div className="max-w-5xl mx-auto overflow-hidden border shadow-sm border-base-300 rounded-2xl bg-base-100">
-          {/* Table Header */}
-          <div className="grid grid-cols-12 gap-4 p-5 text-sm font-semibold tracking-wider uppercase border-b border-base-300 text-neutral">
-            <div className="col-span-2 text-center md:col-span-1">Rank</div>
-            <div className="col-span-6 md:col-span-5">User</div>
-            <div className="col-span-2 text-center md:col-span-3">Wins</div>
-            <div className="col-span-2 pr-4 text-right md:col-span-3">Role</div>
-          </div>
-
-          {/* Table Body */}
-          <div className="divide-y divide-base-300">
-            {searchQuery
-              ? filteredUsers.map((user) => (
-                  <LeaderboardRow key={user._id} user={user} />
-                ))
-              : restUsers.map((user) => (
-                  <LeaderboardRow key={user._id} user={user} />
-                ))}
-
-            {filteredUsers.length === 0 && (
-              <div className="p-10 text-center text-gray-500">
-                No users found matching "{searchQuery}"
+        ) : (
+          <>
+            {/* Podium Section (Top 3) */}
+            {filteredUsers.length >= 3 && !searchQuery && (
+              <div className="flex flex-col items-center justify-center gap-6 mb-16 md:flex-row">
+                <PodiumCard user={topThree[1]} place={2} delay={0.2} />
+                <PodiumCard user={topThree[0]} place={1} delay={0} />
+                <PodiumCard user={topThree[2]} place={3} delay={0.4} />
               </div>
             )}
-          </div>
-        </div>
+
+            {/* Controls (Search) */}
+            <div className="flex flex-col items-center justify-between max-w-5xl gap-4 p-4 mx-auto mb-8 border shadow-xl border-base-300 rounded-2xl md:flex-row bg-base-100">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-neutral">
+                <TrendingUp size={20} className="text-[#1D4ED8]" />
+                All Rankings
+              </h3>
+
+              <div className="relative w-full md:w-80 ">
+                <Search
+                  className="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder="Search winner..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 text-neutral bg-base-100 border border-base-300 rounded-xl focus:outline-none focus:border-[#1D4ED8] focus:ring-2 focus:ring-blue-100 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* List Section (Rest of Users) */}
+            <div className="max-w-5xl mx-auto overflow-hidden border shadow-sm border-base-300 rounded-2xl bg-base-100">
+              {/* Table Header */}
+              <div className="grid grid-cols-12 gap-4 p-5 text-sm font-semibold tracking-wider uppercase border-b border-base-300 text-neutral">
+                <div className="col-span-2 text-center md:col-span-1">Rank</div>
+                <div className="col-span-6 md:col-span-5">User</div>
+                <div className="col-span-2 text-center md:col-span-3">Wins</div>
+                <div className="col-span-2 pr-4 text-right md:col-span-3">
+                  Role
+                </div>
+              </div>
+
+              {/* Table Body */}
+              <div className="divide-y divide-base-300">
+                {searchQuery
+                  ? filteredUsers.map((user) => (
+                      <LeaderboardRow key={user._id} user={user} />
+                    ))
+                  : restUsers.map((user) => (
+                      <LeaderboardRow key={user._id} user={user} />
+                    ))}
+
+                {filteredUsers.length === 0 && (
+                  <div className="p-10 text-center text-gray-500">
+                    No users found matching "{searchQuery}"
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -158,7 +176,6 @@ export default function Leaderboard() {
 
 // --- Sub-Component: Top 3 Podium Card ---
 function PodiumCard({ user, place, delay }) {
-  // Styles based on rank
   const styles = {
     1: {
       height: "h-[320px]",
@@ -196,14 +213,12 @@ function PodiumCard({ user, place, delay }) {
         currentStyle.border
       } z-10 order-${place === 1 ? 2 : place === 2 ? 1 : 3}`}
     >
-      {/* Crown for #1 */}
       {currentStyle.crown && (
         <div className="absolute p-2 -translate-x-1/2 bg-yellow-400 rounded-full shadow-lg -top-6 left-1/2 animate-bounce">
           <Crown className="text-white" size={24} fill="currentColor" />
         </div>
       )}
 
-      {/* Avatar */}
       <div className="relative mb-4">
         <div
           className={`w-24 h-24 rounded-full p-1 border-4 ${currentStyle.border}`}
@@ -222,7 +237,6 @@ function PodiumCard({ user, place, delay }) {
       </div>
 
       <div className="w-full">
-        {/* Details */}
         <h3 className="text-xl font-bold text-center text-neutral line-clamp-1">
           {user.displayName}
         </h3>
@@ -256,12 +270,10 @@ function LeaderboardRow({ user }) {
       viewport={{ once: true }}
       className="grid items-center grid-cols-12 gap-4 p-4 transition-colors duration-200 bg-base-100 hover:bg-base-200 group"
     >
-      {/* Rank */}
       <div className="col-span-2 md:col-span-1 text-center font-bold text-neutral group-hover:text-[#1D4ED8]">
         #{user.rank}
       </div>
 
-      {/* User Info */}
       <div className="flex items-center col-span-6 gap-3 md:col-span-5 md:gap-4">
         <img
           src={user.photoURL}
@@ -276,7 +288,6 @@ function LeaderboardRow({ user }) {
         </div>
       </div>
 
-      {/* Wins */}
       <div className="col-span-2 text-center md:col-span-3">
         <div className="inline-flex items-center gap-1.5 bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20">
           <Trophy size={14} className="text-yellow-600" />
@@ -286,7 +297,6 @@ function LeaderboardRow({ user }) {
         </div>
       </div>
 
-      {/* Role */}
       <div className="col-span-2 pr-4 text-right md:col-span-3">
         <span className="inline-block px-2 py-1 text-xs font-semibold text-blue-600 capitalize bg-blue-100 rounded-md">
           {user.role}
