@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   FileText,
 } from "lucide-react";
-import {  useParams } from "react-router";
+import { useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../Loader/Loader";
@@ -435,8 +435,9 @@ export default function ContestDetails() {
                     </button>
                   ) : (
                     <button
+                      disabled={contest.winner}
                       onClick={handleRegister}
-                      className="flex items-center justify-center w-full gap-2 py-4 text-lg font-bold shadow-lg btn btn-secondary shadow-secondary/30 rounded-xl text-secondary-content"
+                      className="flex items-center justify-center w-full gap-2 py-4 text-lg font-bold shadow-lg btn btn-secondary shadow-secondary/30 rounded-xl text-secondary-content disabled:cursor-not-allowed disabled:shadow "
                     >
                       Register Now • ${contest.price}
                     </button>
