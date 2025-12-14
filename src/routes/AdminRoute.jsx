@@ -12,7 +12,7 @@ const AdminRoute = ({ children }) => {
     return <Loader />;
   }
 
-  console.log(role);
+  // console.log(role);
   if (role !== "admin") {
     return <Forbidden />;
   }

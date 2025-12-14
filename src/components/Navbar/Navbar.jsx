@@ -22,6 +22,7 @@ import useAuth from "../../hooks/useAuth";
 import { Loader } from "../Loader/Loader";
 import NavItem from "./NavItem";
 import logo from "../../assets/logo2.png";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,6 +46,7 @@ export default function Navbar() {
       .then(() => setShowDropdown(false))
       .catch((error) => {
         console.log(error.message);
+        toast.error(error.message);
       });
   };
 
@@ -55,10 +57,10 @@ export default function Navbar() {
  
   const navTextColor = scrolled
     ? "text-neutral hover:text-primary"
-    : "text-white/90 hover:text-white";
+    : "text-neutral/90 hover:text-primary";
   const glassButtonStyle = scrolled
     ? "text-neutral border-neutral/20 hover:border-primary hover:text-primary hover:bg-primary/5"
-    : "text-white border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/50";
+    : "text-neutral border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/50";
 
   return (
     <motion.nav
@@ -67,8 +69,8 @@ export default function Navbar() {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 mx-auto transition-all duration-500 ease-in-out ${
         scrolled
-          ? "w-[95%] max-w-7xl top-4 rounded-2xl bg-base-100/90 shadow-xl border border-base-200/50 backdrop-blur-xl"
-          : "w-full max-w-7xl top-0 bg-transparent border-b border-white/5"
+          ? "w-[95%] max-w-7xl top-4 rounded-2xl bg-base-100/90 shadow-xl border border-base-200/50 backdrop-blur-xl "
+          : "w-full max-w-7xl top-0 bg-transparent border-b border-white/5 "
       }`}
     >
       <div className="relative flex items-center justify-between h-16 px-4 md:px-8">
