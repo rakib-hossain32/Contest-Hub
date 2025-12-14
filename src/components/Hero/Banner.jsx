@@ -92,6 +92,15 @@ export default function Banner({ onSearch }) {
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           }}
         ></div>
+        {/* --- Fixed Grid Pattern (CSS Gradient) --- */}
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        ></div>
         <div className="absolute inset-0 bg-linear-to-t from-[#0f172a] via-transparent to-[#0f172a]/80"></div>
       </div>
 
@@ -168,7 +177,6 @@ export default function Banner({ onSearch }) {
 
           {/* --- Results Dropdown --- */}
           <AnimatePresence>
-        
             {showDropdown && findContests.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -180,16 +188,14 @@ export default function Banner({ onSearch }) {
                   {findContests.map((contest) => (
                     <Link
                       to={`/contest/${contest._id}`}
-                      key={contest._id} 
+                      key={contest._id}
                       onClick={() => {
-                        setQuery(contest.name); 
+                        setQuery(contest.name);
                         setShowDropdown(false);
-                       
                       }}
                       className="flex flex-wrap items-center w-full p-4 transition-colors border-b shadow-sm cursor-pointer bg-base-100 hover:bg-base-300 border-white/5 last:border-none"
                     >
                       <img
-                        
                         src={
                           contest.image ||
                           "https://readymadeui.com/profile_3.webp"
@@ -199,17 +205,14 @@ export default function Banner({ onSearch }) {
                       />
                       <div className="flex-1 ml-4">
                         <p className="text-sm font-semibold text-neutral">
-                          
                           {contest.name}
                         </p>
                         <div className="flex gap-4">
                           <p className="mt-0.5 text-xs text-gray-400">
-                            
                             {contest.type}
                           </p>
 
                           <p className="mt-0.5 text-xs text-gray-400">
-                            
                             {contest.email}
                           </p>
                         </div>
@@ -230,7 +233,7 @@ export default function Banner({ onSearch }) {
             {["Photography", "Programming", "Business", "Design"].map((tag) => (
               <button
                 key={tag}
-                type="button" 
+                type="button"
                 onClick={() => handleTagClick(tag)}
                 className="text-xs md:text-sm text-gray-300 hover:text-white hover:underline decoration-[#10B981] underline-offset-4 transition-all"
               >

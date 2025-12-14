@@ -11,13 +11,14 @@ import {
 } from "lucide-react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "../../components/Loader/Loader";
 
 export default function Leaderboard() {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const axiosSecure = useAxiosSecure();
 
-  const { data: allUsers = [] } = useQuery({
+  const { data: allUsers = [], isLoading } = useQuery({
     queryKey: ["leader-board", "all-users-rank"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users");
@@ -25,20 +26,16 @@ export default function Leaderboard() {
     },
   });
 
-  
   useEffect(() => {
     if (allUsers.length > 0) {
-     
       const winningUsers = allUsers.filter(
         (user) => user.role === "user" && (user.winCount || 0) > 0
       );
 
-    
       const sortedData = [...winningUsers].sort(
         (a, b) => (b.winCount || 0) - (a.winCount || 0)
       );
 
-    
       const rankedData = sortedData.map((user, index) => ({
         ...user,
         rank: index + 1,
@@ -53,9 +50,12 @@ export default function Leaderboard() {
     user.displayName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  
   const topThree = filteredUsers.slice(0, 3);
   const restUsers = filteredUsers.slice(3);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen pb-20 overflow-x-hidden bg-base-100">
