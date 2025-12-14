@@ -174,7 +174,7 @@ export default function Banner({ onSearch }) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 10 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="absolute left-0 right-0 top-full bg-[#1e293b] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-60 text-left mt-2 max-h-[300px] overflow-y-auto custom-scrollbar"
+                className="absolute left-0 right-0 top-full bg-base-100 border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-60 text-left mt-2 max-h-[300px] overflow-y-auto custom-scrollbar"
               >
                 <ul>
                   {findContests.map((contest) => (
@@ -186,7 +186,7 @@ export default function Banner({ onSearch }) {
                         setShowDropdown(false);
                        
                       }}
-                      className="flex flex-wrap items-center w-full p-4 transition-colors border-b shadow-sm cursor-pointer bg-base-100 hover:bg-white/10 border-white/5 last:border-none"
+                      className="flex flex-wrap items-center w-full p-4 transition-colors border-b shadow-sm cursor-pointer bg-base-100 hover:bg-base-300 border-white/5 last:border-none"
                     >
                       <img
                         
@@ -198,7 +198,7 @@ export default function Banner({ onSearch }) {
                         className="object-cover w-10 h-10 rounded-full"
                       />
                       <div className="flex-1 ml-4">
-                        <p className="text-sm font-semibold text-gray-200">
+                        <p className="text-sm font-semibold text-neutral">
                           
                           {contest.name}
                         </p>
