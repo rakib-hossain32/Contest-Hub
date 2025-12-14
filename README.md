@@ -6,7 +6,7 @@ ContestHub is a modern, premium, and feature-rich platform that connects creativ
 
 🔗 Live Demo
 
-🚀 Visit the Live Site: https://your-contesthub-url.vercel.app
+🚀 Visit the Live Site: https://contest-hub-c7402.web.app/
 
 (Please replace this link with your actual deployed URL)
 
@@ -60,7 +60,7 @@ Follow these steps to run the project on your local machine:
 
 Clone the repository:
 
-git clone [https://github.com/your-username/contesthub.git](https://github.com/your-username/contesthub.git)
+git clone [https://github.com/rakib-hossain32/Contest-Hub](https://github.com/rakib-hossain32/Contest-Hub)
 
 
 Navigate to the project directory:

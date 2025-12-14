@@ -2,9 +2,10 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://contesthub-server-sigma.vercel.app",
 });
 
 const useAxiosSecure = () => {
@@ -26,6 +27,7 @@ const useAxiosSecure = () => {
       },
       (err) => {
         console.log(err);
+        toast.error(err.message);
 
         const status = err.status;
 
