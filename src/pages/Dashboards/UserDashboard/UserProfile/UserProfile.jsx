@@ -20,7 +20,7 @@ import { Loader } from "../../../../components/Loader/Loader";
 import { toast } from "react-toastify";
 
 export const UserProfile = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -65,20 +65,27 @@ export const UserProfile = () => {
   const primaryColor = "#00b074";
 
   const onSubmit = (data) => {
-    // console.log("Form Submitted Data:", data);
+    console.log("Form Submitted Data:", data);
+    const { photoURL, displayName } = data;
 
     axiosSecure
       .patch(`/users/${oneUser?._id}/info`, data)
       .then((res) => {
         if (res.data.modifiedCount) {
           refetch();
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Profile has been updated",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          updateUser(displayName, photoURL)
+            .then(() => {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Profile has been updated",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            })
+            .catch((err) => {
+              toast.error(err.message);
+            });
         }
       })
       .catch((e) => {
