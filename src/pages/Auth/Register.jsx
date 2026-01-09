@@ -9,7 +9,7 @@ import SocialLogin from "./SocialLogin/SocialLogin";
 
 const Register = () => {
   const [eye, setEye] = useState(true);
-  const { createUser, updateUser,  } = useAuth();
+  const { createUser, updateUser, setLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
@@ -57,10 +57,12 @@ const Register = () => {
             toast.success("Successfully Create Account");
           })
           .catch((error) => {
+            setLoading(false);
             toast.error(error.message);
           });
       })
       .catch((error) => {
+        setLoading(false);
         toast.error(error.message);
       });
   };
@@ -68,7 +70,7 @@ const Register = () => {
   // console.log(errors)
 
   return (
-    <div className="flex items-center justify-center min-h-screen py-10 bg-base-100">
+    <div className="flex items-center justify-center min-h-screen py-20 bg-base-100">
       <div className="grid justify-center max-w-md p-4 mx-auto">
         {/* Image Section */}
         <div className="aspect-64/45">
@@ -211,7 +213,7 @@ const Register = () => {
           </div>
 
           <hr className="my-6 border-neutral/20" />
-          <SocialLogin/>
+          <SocialLogin />
         </form>
       </div>
     </div>

@@ -8,7 +8,6 @@ ContestHub is a modern, premium, and feature-rich platform that connects creativ
 
 🚀 Visit the Live Site: https://contest-hub-c7402.web.app/
 
-(Please replace this link with your actual deployed URL)
 
 ✨ Key Features
 
@@ -84,3 +83,69 @@ Open your browser and visit http://localhost:5173 to see the app in action!
 
 
 Made with ❤️ by [Rakib Hossain]
+
+---
+
+## 🏆 Review System API Design (MongoDB)
+
+This section outlines the backend API structure for the Testimonial/Review system using the **Native MongoDB Driver**.
+
+### 1. Data Schema (Document Structure)
+```json
+{
+  "name": "User Display Name",
+  "email": "user@example.com",
+  "role": "User Role (e.g., Designer)",
+  "content": "Review text details...",
+  "avatar": "https://photo-url.com",
+  "rating": 5,
+  "status": "pending", 
+  "createdAt": "2024-01-09T12:00:00Z"
+}
+```
+
+### 2. Endpoints
+
+#### **A. Submit a Review**
+*   **Method:** `POST`
+*   **Endpoint:** `/reviews`
+*   **Security:** Private (Requires Token)
+*   **Implementation (Native MongoDB):**
+```javascript
+app.post('/reviews', verifyToken, async (req, res) => {
+    const review = req.body;
+    review.status = 'pending'; // Default status for admin review
+    review.createdAt = new Date();
+    
+    const result = await reviewsCollection.insertOne(review);
+    res.send(result);
+});
+```
+
+#### **B. Get Approved Reviews**
+*   **Method:** `GET`
+*   **Endpoint:** `/reviews`
+*   **Implementation:**
+```javascript
+app.get('/reviews', async (req, res) => {
+    const query = { status: 'approved' };
+    const result = await reviewsCollection.find(query).toArray();
+    res.send(result);
+});
+```
+
+#### **C. Manage Reviews (Admin)**
+*   **Method:** `PATCH`
+*   **Endpoint:** `/reviews/:id`
+*   **Implementation:**
+```javascript
+app.patch('/reviews/:id', verifyToken, verifyAdmin, async (req, res) => {
+    const id = req.params.id;
+    const filter = { _id: new ObjectId(id) };
+    const updateDoc = {
+        $set: { status: 'approved' }
+    };
+    const result = await reviewsCollection.updateOne(filter, updateDoc);
+    res.send(result);
+});
+```

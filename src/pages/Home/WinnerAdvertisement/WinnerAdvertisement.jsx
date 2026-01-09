@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Trophy, Star, DollarSign, ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router";
 import { WinnerCard } from "./WinnerCard";
+import SectionHeader from "../../../components/SectionHeader/SectionHeader";
 
 // --- Mock Data ---
 const winnersData = [
@@ -64,51 +65,14 @@ export default function WinnerAdvertisement() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative w-full py-24 bg-[#111827] overflow-hidden">
-      {/* --- Ambient Background Effects --- */}
-      <div className="absolute top-0 left-0 z-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[20%] w-96 h-96 bg-[#1D4ED8] rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-[#8B5CF6] rounded-full mix-blend-screen filter blur-[120px] opacity-20"></div>
-        {/* Confetti/Sparkles Overlay */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
-      </div>
+    <section className="relative w-full  bg-base-100 overflow-hidden">
+
 
       <div className="container relative z-10 px-4 mx-auto md:px-6">
-        {/* --- Header Section --- */}
-        <div className="max-w-3xl mx-auto mb-16 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 font-medium text-sm mb-6"
-          >
-            <Trophy size={16} /> Hall of Fame
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl"
-          >
-            Join the League of <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-orange-500">
-              Champions & Creators
-            </span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="text-lg text-gray-400"
-          >
-            Every day, creators like you are winning big. Showcase your talent,
-            earn recognition, and take home the prize money you deserve.
-          </motion.p>
-        </div>
+        <SectionHeader
+          title={<span >Join the League of <br /> Champions & Creators</span>}
+          subtitle="Every day, creators like you are winning big. Showcase your talent, earn recognition, and take home the prize money you deserve."
+        />
 
         {/* --- Stats Row --- */}
         <motion.div
@@ -120,13 +84,13 @@ export default function WinnerAdvertisement() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="flex items-center gap-4 p-6 transition-colors border bg-white/5 backdrop-blur-sm border-white/10 rounded-2xl hover:bg-white/10"
+              className="flex items-center gap-4 p-6 transition-colors border bg-white/5 backdrop-blur-sm border-primary/10 rounded-2xl hover:bg-white/10"
             >
               <div className={`p-3 rounded-full bg-white/5 ${stat.color}`}>
                 <stat.icon size={28} />
               </div>
               <div>
-                <h4 className="text-3xl font-bold text-white">{stat.value}</h4>
+                <h4 className="text-3xl font-bold text-primary">{stat.value}</h4>
                 <p className="text-sm text-gray-400">{stat.label}</p>
               </div>
             </div>
@@ -151,7 +115,7 @@ export default function WinnerAdvertisement() {
             <div className="absolute -inset-1 bg-linear-to-r from-[#10B981] to-[#1D4ED8] rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
             <button
               onClick={() => navigate("/all-contests")}
-              className="relative px-10 py-4 bg-white text-[#111827] text-lg font-bold rounded-full flex items-center gap-3 hover:scale-105 transition-transform"
+              className="relative px-10 py-4 bg-white text-[#111827] text-lg font-bold rounded-full flex items-center gap-3 hover:scale-105 transition-transform cursor-pointer"
             >
               Start Competing Now <ArrowRight size={20} />
             </button>

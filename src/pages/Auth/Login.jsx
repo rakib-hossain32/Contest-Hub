@@ -8,40 +8,29 @@ import SocialLogin from "./SocialLogin/SocialLogin";
 
 const Login = () => {
   const [eye, setEye] = useState(true);
-  const { signInUser,  } = useAuth();
+  const { signInUser, setLoading } = useAuth();
   const navigate = useNavigate()
 
   const { register, handleSubmit } = useForm();
   const location = useLocation()
   // console.log(location)
 
-  // const handleGoogleLogin = () => {
-  //   googleLogin()
-  //     .then(() => {
-  //       // console.log(result.user);
-  //       navigate(location.state || '/')
-  //       toast.success("Successfully Login");
-  //     })
-  //     .catch((err) => { 
-  //     toast.error(err.message)
-  //    })
-  // };
-
   const handleSignIn = (data) => {
     // console.log(data);
     const { email, password } = data;
     signInUser(email, password)
-      .then(() => { 
+      .then(() => {
         toast.success('Successfully Login')
         navigate(location.state || "/");
       })
-      .catch((err) => { 
-      toast.error(err.message)
-     })
+      .catch((err) => {
+        setLoading(false); // Reset global loading state on error
+        toast.error(err.message)
+      })
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen py-10 bg-base-100">
+    <div className="flex items-center justify-center min-h-screen py-20 bg-base-100">
       <div className="grid justify-center max-w-md p-4 mx-auto">
         {/* Image Section */}
         <div className="aspect-64/45">
@@ -110,6 +99,36 @@ const Login = () => {
               LogIn
             </button>
 
+            {/* Demo Login Buttons */}
+            <div className="mt-8">
+              <p className="mb-4 text-xs font-bold tracking-widest text-center uppercase text-neutral/40">
+                Quick Demo Access
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleSignIn({ email: "user@example.com", password: "Password123!" })}
+                  className="px-4 py-1.5 text-xs font-bold transition border rounded-full text-neutral border-neutral/20 hover:bg-primary/10 hover:border-primary hover:text-primary cursor-pointer active:scale-95"
+                >
+                  User
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSignIn({ email: "creator@example.com", password: "Password123!" })}
+                  className="px-4 py-1.5 text-xs font-bold transition border rounded-full text-neutral border-neutral/20 hover:bg-secondary/10 hover:border-secondary hover:text-secondary cursor-pointer active:scale-95"
+                >
+                  Creator
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSignIn({ email: "admin@example.com", password: "Password123!" })}
+                  className="px-4 py-1.5 text-xs font-bold transition border rounded-full text-neutral border-neutral/20 hover:bg-accent/10 hover:border-accent hover:text-accent cursor-pointer active:scale-95"
+                >
+                  Admin
+                </button>
+              </div>
+            </div>
+
             <p className="mt-6 text-sm text-center text-neutral/70">
               Don’t have an account?
               <Link
@@ -123,7 +142,7 @@ const Login = () => {
           </div>
 
           <hr className="my-6 border-neutral/20" />
-          <SocialLogin/>
+          <SocialLogin />
         </form>
       </div>
     </div>

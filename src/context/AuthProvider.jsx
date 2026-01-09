@@ -15,7 +15,6 @@ import { auth } from "../components/firebase/firebase.config";
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-  // const user = "user";
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,13 +26,11 @@ const AuthProvider = ({ children }) => {
 
   const signInUser = (email, password) => {
     setLoading(true);
-
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const googleLogin = () => {
     setLoading(true);
-
     return signInWithPopup(auth, googleProvider);
   };
 
@@ -50,8 +47,6 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      // console.log(currentUser);
-      
     });
     return () => {
       unSubscribe();
@@ -61,6 +56,7 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     loading,
+    setLoading, // Passing setLoading so components can manage it if needed
     createUser,
     signInUser,
     googleLogin,

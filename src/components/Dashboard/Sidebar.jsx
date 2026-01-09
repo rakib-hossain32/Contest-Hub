@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   PlusCircle,
   Users,
+  MessageSquare,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import useRole from "../../hooks/useRole";
@@ -21,7 +22,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   const handleLoginOut = () => {
     logOutUser()
-      
+
       .catch((err) => {
         toast.error(err.message);
       });
@@ -31,29 +32,29 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
   const menuItems =
     role === "user"
       ? [
-          {
-            name: "User Dashboard",
-            icon: Users,
-            path: "/dashboard",
-          },
-          {
-            name: "My Participated Contests",
-            icon: ListOrdered,
-            path: "/dashboard/participated-contests",
-          },
-          {
-            name: "My Winning Contests",
-            icon: Trophy,
-            path: "/dashboard/winning",
-          },
-          {
-            name: "My Profile",
-            icon: User,
-            path: "/dashboard/profile",
-          },
-        ]
+        {
+          name: "User Dashboard",
+          icon: Users,
+          path: "/dashboard",
+        },
+        {
+          name: "My Participated Contests",
+          icon: ListOrdered,
+          path: "/dashboard/participated-contests",
+        },
+        {
+          name: "My Winning Contests",
+          icon: Trophy,
+          path: "/dashboard/winning",
+        },
+        {
+          name: "My Profile",
+          icon: User,
+          path: "/dashboard/profile",
+        },
+      ]
       : role === "creator"
-      ? [
+        ? [
           {
             name: "Creator Dashboard",
             icon: LayoutDashboard,
@@ -70,7 +71,7 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
             path: "/dashboard/my-contests",
           },
         ]
-      : [
+        : [
           {
             name: "Admin Dashboard",
             icon: LayoutDashboard,
@@ -86,6 +87,11 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
             name: "Manage Contests",
             icon: Trophy,
             path: "/dashboard/contests",
+          },
+          {
+            name: "Manage Reviews",
+            icon: MessageSquare,
+            path: "/dashboard/reviews",
           },
         ];
 
@@ -163,11 +169,10 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
                   onClick={() => {
                     if (window.innerWidth < 1024) toggleSidebar();
                   }}
-                  className={`flex w-full items-center rounded-xl px-4 py-3.5 text-[15px] font-medium transition-all duration-200 group relative overflow-hidden ${
-                    active
+                  className={`flex w-full items-center rounded-xl px-4 py-3.5 text-[15px] font-medium transition-all duration-200 group relative overflow-hidden ${active
                       ? "bg-secondary/15 text-secondary"
                       : "text-secondary hover:bg-secondary/15 hover:text-secondary"
-                  }`}
+                    }`}
                 >
                   {/* Active Indicator Bar */}
                   {active && (
@@ -175,11 +180,10 @@ export const Sidebar = ({ isOpen, toggleSidebar }) => {
                   )}
 
                   <item.icon
-                    className={`mr-3 h-5 w-5 transition-colors ${
-                      active
+                    className={`mr-3 h-5 w-5 transition-colors ${active
                         ? "text-secondary"
                         : "text-secondary group-hover:text-secondary"
-                    }`}
+                      }`}
                   />
                   <span>{item.name}</span>
                 </Link>

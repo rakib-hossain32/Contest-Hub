@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Zap,
 } from "lucide-react";
+import SectionHeader from "../../../components/SectionHeader/SectionHeader";
 
 const features = [
   {
@@ -62,49 +63,18 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative py-24 overflow-hidden bg-base-100">
+    <section className="relative overflow-hidden bg-base-100">
       {/* Decorative Blobs */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-5%] right-[-5%] w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-[-5%] left-[-5%] w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
-      </div>
+      </div> */}
 
       <div className="container relative z-10 px-4 mx-auto md:px-6">
-        {/* Header */}
-        <div className="max-w-3xl mx-auto mb-16 text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-sm font-bold tracking-wider uppercase text-primary"
-          >
-            Why Choose Us
-          </motion.span>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="mt-3 text-3xl font-extrabold md:text-5xl text-neutral"
-          >
-            The Ultimate Platform for <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
-              Creators & Organizers
-            </span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-lg text-neutral/60"
-          >
-            We simplify the process of hosting and participating in contests,
-            making it rewarding for everyone involved.
-          </motion.p>
-        </div>
+        <SectionHeader
+          title={<>The Ultimate Platform for <br /> Creators & Organizers</>}
+          subtitle="We simplify the process of hosting and participating in contests, making it rewarding for everyone involved."
+        />
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

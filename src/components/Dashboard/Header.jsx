@@ -18,7 +18,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-40 px-8 py-4 border-b backdrop-blur-md border-secondary/20">
-      <div className="flex flex-row items-center gap-4 sm:justify-between">
+      <div className="flex flex-row items-center  sm:justify-between">
         {/* Search Bar */}
         {/* <div className="flex items-center w-full sm:max-w-md bg-white border border-gray-200 rounded-full shadow-sm px-4 py-2.5 transition-shadow focus-within:shadow-md focus-within:border-blue-300">
           <Search className="w-4 h-4 mr-3 text-gray-400" />
@@ -28,9 +28,9 @@ export const Header = () => {
             className="w-full text-sm bg-transparent outline-0 placeholder:text-gray-400 text-slate-700"
           />
         </div> */}
-        <div className="">
-          <h1 className="text-2xl font-bold text-neutral">{getPageTitle()}</h1>
-          <p className="mt-1 text-sm text-slate-500">
+        <div className="truncate">
+          <h1 className="  md:text-2xl font-bold text-neutral ">{getPageTitle()}</h1>
+          <p className="mt-1 text-sm text-slate-500  truncate max-w-[150px] overflow-hidden">
             Manage your activities and update your information.
           </p>
         </div>

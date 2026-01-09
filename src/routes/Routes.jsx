@@ -9,6 +9,10 @@ import AllContests from "../pages/AllContests/AllContests";
 import ContestDetails from "../components/ContestDetails/ContestDetails";
 import Events from "../pages/Events/Events";
 import SuccessStories from "../pages/SuccessStories/SuccessStories";
+import About from "../pages/About/About";
+import Contact from "../pages/Contact/Contact";
+import Blog from "../pages/Blog/Blog";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 
 import PrivateRoute from "./PrivateRoute";
 import AddContest from "../pages/Dashboards/CreatorDashboard/AddContest/AddContest";
@@ -17,6 +21,7 @@ import ContestSubmissions from "../pages/Dashboards/CreatorDashboard/ContestSubm
 import EditContest from "../pages/Dashboards/CreatorDashboard/EditContest/EditContest";
 import ManageContests from "../pages/Dashboards/AdminDashboard/ManageContests/ManageContests";
 import ManageUsers from "../pages/Dashboards/AdminDashboard/ManageUsers/ManageUsers";
+import ManageReviews from "../pages/Dashboards/AdminDashboard/ManageReviews/ManageReviews";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import { ParticipatedContests } from "../pages/Dashboards/UserDashboard/ParticipatedContests/ParticipatedContests";
 import { WinningContests } from "../pages/Dashboards/UserDashboard/WinningContests/WinningContests";
@@ -56,13 +61,24 @@ export const router = createBrowserRouter([
         Component: Leaderboard,
       },
       {
+        path: "/about",
+        Component: About,
+      },
+      {
+        path: "/contact",
+        Component: Contact,
+      },
+      {
+        path: "/blog",
+        Component: Blog,
+      },
+      {
+        path: "/privacy",
+        Component: PrivacyPolicy,
+      },
+      {
         path: "/contest/:id",
-        element: (
-          <PrivateRoute>
-            {" "}
-            <ContestDetails />
-          </PrivateRoute>
-        ),
+        Component: ContestDetails,
       },
       {
         path: "contest/payment-success",
@@ -180,6 +196,14 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ManageContests />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "reviews",
+        element: (
+          <AdminRoute>
+            <ManageReviews />
           </AdminRoute>
         ),
       },

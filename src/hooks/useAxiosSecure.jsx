@@ -5,7 +5,8 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 const instance = axios.create({
-  baseURL: "https://contesthub-server-sigma.vercel.app",
+  baseURL: "http://localhost:3000",
+  // baseURL: "https://contesthub-server-sigma.vercel.app",
 });
 
 const useAxiosSecure = () => {

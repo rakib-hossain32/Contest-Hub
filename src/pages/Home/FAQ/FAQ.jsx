@@ -10,6 +10,7 @@ import {
   ChevronRight,
   HelpCircle,
 } from "lucide-react";
+import SectionHeader from "../../../components/SectionHeader/SectionHeader";
 
 // --- FAQ Data ---
 const faqData = [
@@ -105,10 +106,8 @@ export default function FAQ() {
   return (
     <div className="">
       {/* --- 1. Hero Section --- */}
-      <section className="relative bg-[#111827] pt-24 pb-32 px-4 md:px-6 overflow-hidden">
-        {/* Abstract Background */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1D4ED8] rounded-full opacity-20 blur-[120px] translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#8B5CF6] rounded-full opacity-10 blur-[100px] -translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
+      <section className="relative bg-base-100 pb-32 px-4 md:px-6 overflow-hidden">
+
 
         <div className="container relative z-10 mx-auto text-center">
           <motion.div
@@ -116,16 +115,10 @@ export default function FAQ() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-3 py-1 mb-4 text-sm font-medium text-blue-400 border rounded-full bg-blue-500/10 border-blue-500/20">
-              <HelpCircle size={16} /> Help Center
-            </span>
-            <h1 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-              How can we help you?
-            </h1>
-            <p className="max-w-2xl mx-auto mb-10 text-lg text-gray-400">
-              Everything you need to know about creating contests,
-              participating, and getting paid.
-            </p>
+            <SectionHeader
+              title={<span className="text-white uppercase">How can we help you?</span>}
+              subtitle={<span className="text-gray-400">Everything you need to know about creating contests, participating, and getting paid.</span>}
+            />
 
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
@@ -159,11 +152,10 @@ export default function FAQ() {
                   setActiveCategory(cat);
                   setOpenIndex(null);
                 }}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
-                  activeCategory === cat
-                    ? "bg-[#1D4ED8] text-white ring-4 ring-blue-100"
-                    : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
-                }`}
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${activeCategory === cat
+                  ? "bg-[#1D4ED8] text-white ring-4 ring-blue-100"
+                  : "bg-base-100 text-neutral hover:bg-base-200 border border-gray-200"
+                  }`}
               >
                 {cat}
               </motion.button>
@@ -258,27 +250,24 @@ function FAQItem({ faq, isOpen, onClick }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className={`bg-base-100 rounded-2xl border transition-all duration-300 overflow-hidden ${
-        isOpen
-          ? "border-[#1D4ED8] shadow-md ring-2 ring-blue-50"
-          : "border-gray-200 hover:border-blue-200"
-      }`}
+      className={`bg-base-100 rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen
+        ? "border-[#1D4ED8] shadow-md ring-2 ring-blue-50"
+        : "border-gray-200 hover:border-blue-200"
+        }`}
     >
       <button
         onClick={onClick}
         className="flex items-center justify-between w-full p-5 text-left md:p-6 focus:outline-none"
       >
         <span
-          className={`text-lg font-semibold transition-colors ${
-            isOpen ? "text-[#1D4ED8]" : ""
-          }`}
+          className={`text-lg font-semibold transition-colors ${isOpen ? "text-[#1D4ED8]" : ""
+            }`}
         >
           {faq.question}
         </span>
         <div
-          className={`p-2 rounded-full transition-colors shrink-0 ml-4 ${
-            isOpen ? "bg-blue-100 text-[#1D4ED8]" : "bg-gray-100 text-gray-500"
-          }`}
+          className={`p-2 rounded-full transition-colors shrink-0 ml-4 ${isOpen ? "bg-blue-100 text-[#1D4ED8]" : "bg-gray-100 text-gray-500"
+            }`}
         >
           {isOpen ? <Minus size={20} /> : <Plus size={20} />}
         </div>

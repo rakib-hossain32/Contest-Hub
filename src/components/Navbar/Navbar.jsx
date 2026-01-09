@@ -179,7 +179,7 @@ export default function Navbar() {
                         label="Dashboard"
                         onClick={() => setShowDropdown(false)}
                       />
-                      <DropdownLink
+                      {/* <DropdownLink
                         to="/"
                         icon={<User size={16} />}
                         label="Profile"
@@ -190,7 +190,7 @@ export default function Navbar() {
                         icon={<Settings size={16} />}
                         label="Settings"
                         onClick={() => setShowDropdown(false)}
-                      />
+                      /> */}
                     </div>
 
                     <div className="p-2 border-t border-base-200">

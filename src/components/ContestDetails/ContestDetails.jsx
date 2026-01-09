@@ -13,6 +13,7 @@ import {
   Share2,
   ShieldCheck,
   FileText,
+  ArrowRight,
 } from "lucide-react";
 import { useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -306,6 +307,77 @@ export default function ContestDetails() {
                 </div>
               </div>
             )}
+
+            {/* Media Gallery (Multiple Images Mockup) */}
+            <div className="p-8 border shadow-xl bg-base-100 border-base-200 rounded-3xl">
+              <h2 className="flex items-center gap-2 mb-6 text-2xl font-bold text-base-content">
+                <span className="w-1 h-8 rounded-full bg-accent"></span>
+                Inspiration Gallery
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="aspect-square rounded-2xl overflow-hidden bg-base-200 group">
+                    <img
+                      src={`https://picsum.photos/seed/${contest._id + i}/400/400`}
+                      alt="Gallery"
+                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 cursor-pointer"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Reviews Section */}
+            <div className="p-8 border shadow-xl bg-base-100 border-base-200 rounded-3xl">
+              <h2 className="flex items-center gap-2 mb-8 text-2xl font-bold text-base-content">
+                <span className="w-1 h-8 rounded-full bg-primary"></span>
+                Participant Reviews
+              </h2>
+
+              <div className="space-y-8">
+                {[
+                  { name: "John Doe", rating: 5, comment: "Amazing contest! The requirements were clear and the competition was healthy." },
+                  { name: "Jane Smith", rating: 4, comment: "Really enjoyed participating. Looking forward to more like this." }
+                ].map((rev, i) => (
+                  <div key={i} className="flex gap-4">
+                    <div className="w-12 h-12 rounded-full bg-base-200 shrink-0 overflow-hidden">
+                      <img src={`https://i.pravatar.cc/150?u=${rev.name}`} alt="" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold flex items-center gap-2">
+                        {rev.name}
+                        <span className="flex text-amber-500 text-xs">
+                          {[...Array(rev.rating)].map((_, j) => <Trophy key={j} size={12} fill="currentColor" />)}
+                        </span>
+                      </h4>
+                      <p className="mt-1 text-base-content/70">{rev.comment}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Related Contests Section */}
+            <div className="p-8 border shadow-xl bg-base-100 border-base-200 rounded-3xl">
+              <h2 className="flex items-center gap-2 mb-8 text-2xl font-bold text-base-content">
+                <span className="w-1 h-8 rounded-full bg-secondary"></span>
+                Related Challenges
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[1, 2].map((i) => (
+                  <div key={i} className="p-4 border border-base-200 rounded-2xl hover:bg-base-200/30 transition-colors flex gap-4 cursor-pointer group">
+                    <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                      <img src={`https://picsum.photos/seed/rel${i}/200/200`} alt="" className="object-cover w-full h-full group-hover:scale-110 transition-transform" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm line-clamp-1 group-hover:text-primary transition-colors">Upcoming {contest.type} Challenge</h4>
+                      <p className="text-xs text-base-content/60 mt-1">Starting soon...</p>
+                      <button className="text-xs font-bold text-primary mt-2 flex items-center gap-1">View <ArrowRight size={12} /></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="lg:col-span-1">
@@ -399,11 +471,10 @@ export default function ContestDetails() {
                   ].map((item, idx) => (
                     <div key={idx} className="flex flex-col items-center">
                       <div
-                        className={`w-full py-3 rounded-xl font-mono text-xl md:text-2xl font-bold border-2 ${
-                          isEnded
-                            ? "bg-base-200 border-base-300 text-base-content/50"
-                            : "bg-base-200 border-base-300 text-primary"
-                        }`}
+                        className={`w-full py-3 rounded-xl font-mono text-xl md:text-2xl font-bold border-2 ${isEnded
+                          ? "bg-base-200 border-base-300 text-base-content/50"
+                          : "bg-base-200 border-base-300 text-primary"
+                          }`}
                       >
                         {item.value.toString().padStart(2, "0")}
                       </div>

@@ -21,7 +21,7 @@ export default function Leaderboard() {
   const { data: allUsers = [], isLoading } = useQuery({
     queryKey: ["leader-board", "all-users-rank"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get("/users/leaderboard");
       return res.data;
     },
   });

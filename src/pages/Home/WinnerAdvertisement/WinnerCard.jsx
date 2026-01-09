@@ -16,7 +16,7 @@ export const WinnerCard = ({ winner, index }) => {
       {/* Glow Effect on Hover */}
       <div className="absolute inset-0 bg-linear-to-tr from-[#1D4ED8]/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-      <div className="relative bg-[#1f2937] rounded-[22px] p-6 h-full flex flex-col items-center text-center">
+      <div className="relative border bg-white/5 border-primary/10 rounded-[22px] p-6 h-full flex flex-col items-center text-center">
         {/* Crown Icon */}
         <div className="absolute text-yellow-400 top-4 right-4 animate-bounce-slow">
           <Sparkles size={20} />
@@ -46,11 +46,11 @@ export const WinnerCard = ({ winner, index }) => {
           "{winner.quote}"
         </p>
 
-        <div className="w-full px-4 py-2 mt-auto rounded-lg bg-gray-800/50">
+        <div className="w-full px-4 py-2 mt-auto rounded-lg bg-base-300/50">
           <p className="text-xs tracking-wider text-gray-500 uppercase">
             Winner of
           </p>
-          <p className="text-sm font-semibold text-gray-300 truncate">
+          <p className="text-sm font-semibold text-neutral truncate">
             {winner.contest}
           </p>
         </div>

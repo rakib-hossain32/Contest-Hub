@@ -2,26 +2,26 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, TrendingUp, Sparkles, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure"; 
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router";
 
 export default function Banner({ onSearch }) {
   const axiosSecure = useAxiosSecure();
 
-  
+
   const [query, setQuery] = useState("");
 
- 
+
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
   const [isFocused, setIsFocused] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
- 
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(query);
-    }, 500); 
+    }, 500);
 
     return () => {
       clearTimeout(handler);
@@ -30,10 +30,10 @@ export default function Banner({ onSearch }) {
 
 
   const { data: findContests = [], isLoading } = useQuery({
-   
+
     queryKey: ["search-contests", debouncedQuery],
     queryFn: async () => {
-     
+
       if (!debouncedQuery) return [];
 
       const res = await axiosSecure.get(
@@ -41,25 +41,25 @@ export default function Banner({ onSearch }) {
       );
       return res.data;
     },
-    
+
     enabled: !!debouncedQuery,
   });
 
- 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSearch) onSearch(query);
-    setShowDropdown(false); 
+    setShowDropdown(false);
   };
 
- 
+
   const handleTagClick = (tag) => {
-    setQuery(tag); 
-    setDebouncedQuery(tag); 
+    setQuery(tag);
+    setDebouncedQuery(tag);
     setShowDropdown(true);
   };
 
-  
+
   const blobVariants = {
     animate: {
       y: [0, -30, 0],
@@ -71,7 +71,7 @@ export default function Banner({ onSearch }) {
   };
 
   return (
-    <section className="relative w-full h-[75vh] min-h-[550px] flex items-center justify-center bg-[#0f172a] z-20">
+    <section className="relative w-full h-[85vh] min-h-[550px] flex items-center justify-center bg-[#0f172a] z-20">
       {/* --- Background Elements --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-linear-to-br from-[#1D4ED8] via-[#0f172a] to-[#8B5CF6] opacity-95"></div>
@@ -135,10 +135,9 @@ export default function Banner({ onSearch }) {
             onSubmit={handleSubmit}
             className={`
               relative flex items-center p-1.5 rounded-full transition-all duration-300 z-50
-              ${
-                isFocused || (findContests.length > 0 && showDropdown)
-                  ? "bg-[#0f172a] shadow-[0_0_30px_rgba(16,185,129,0.15)] border-[#10B981]/40 scale-[1.01]"
-                  : "bg-white/5 shadow-xl border-white/10 hover:border-white/20"
+              ${isFocused || (findContests.length > 0 && showDropdown)
+                ? "bg-[#0f172a] shadow-[0_0_30px_rgba(16,185,129,0.15)] border-[#10B981]/40 scale-[1.01]"
+                : "bg-white/5 shadow-xl border-white/10 hover:border-white/20"
               }
               backdrop-blur-xl border
             `}

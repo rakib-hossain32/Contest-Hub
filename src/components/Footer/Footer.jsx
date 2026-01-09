@@ -22,19 +22,19 @@ export default function Footer() {
   // Link Groups Data
   const footerLinks = {
     platform: [
-      { name: "Browse Contests", href: "#" },
-      { name: "Success Stories", href: "#" },
+      { name: "Browse Contests", href: "/all-contests" },
+      { name: "Success Stories", href: "/success-stories" },
       { name: "Pricing", href: "#" },
       { name: "For Organizers", href: "#" },
     ],
     company: [
-      { name: "About Us", href: "#" },
+      { name: "About Us", href: "/about" },
       { name: "Careers", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Contact", href: "#" },
+      { name: "Blog", href: "/blog" },
+      { name: "Contact", href: "/contact" },
     ],
     legal: [
-      { name: "Privacy Policy", href: "#" },
+      { name: "Privacy Policy", href: "/privacy" },
       { name: "Terms of Service", href: "#" },
       { name: "Cookie Policy", href: "#" },
       { name: "Dispute Resolution", href: "#" },
@@ -177,7 +177,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-gray-400">
                 <Mail size={20} className="text-[#1D4ED8] mt-1" />
-                <span>
+                <span className="truncate">
                   support@contesthub.com
                   <br />
                   <span className="text-xs text-gray-500">
@@ -226,13 +226,13 @@ export default function Footer() {
 function FooterLink({ href, children }) {
   return (
     <li>
-      <a
-        href={href}
+      <Link
+        to={href}
         className="group flex items-center gap-2 text-gray-400 hover:text-[#10B981] transition-colors duration-300 w-max"
       >
         <span className="h-px w-0 bg-[#10B981] group-hover:w-3 transition-all duration-300"></span>
         {children}
-      </a>
+      </Link>
     </li>
   );
 }
