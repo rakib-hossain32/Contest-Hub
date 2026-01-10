@@ -71,7 +71,7 @@ export default function Banner({ onSearch }) {
   };
 
   return (
-    <section className="relative w-full h-[85vh] min-h-[550px] flex items-center justify-center bg-[#0f172a] z-20">
+    <section className="relative w-full h-[80vh] min-h-[550px] flex items-center justify-center bg-[#0f172a] z-20">
       {/* --- Background Elements --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-linear-to-br from-[#1D4ED8] via-[#0f172a] to-[#8B5CF6] opacity-95"></div>

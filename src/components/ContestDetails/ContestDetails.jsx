@@ -14,14 +14,16 @@ import {
   ShieldCheck,
   FileText,
   ArrowRight,
+  ArrowLeft,
 } from "lucide-react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../Loader/Loader";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import SectionHeader from "../SectionHeader/SectionHeader";
 
 const TextRenderer = ({ text }) => {
   if (!text) return null;
@@ -51,6 +53,7 @@ export default function ContestDetails() {
   const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { data: contest = {}, isLoading } = useQuery({
     queryKey: ["contest-details", id],
@@ -190,6 +193,8 @@ export default function ContestDetails() {
 
   return (
     <div className="min-h-screen pb-20 font-sans transition-colors duration-300 bg-base-100 text-base-content">
+      {/* <SectionHeader title={contest.name} subtitle={contest.description} /> */}
+
       <div className="relative h-[45vh] lg:h-[50vh] w-full overflow-hidden group">
         <img
           src={contest.image}
@@ -199,8 +204,17 @@ export default function ContestDetails() {
 
         <div className="absolute inset-0 bg-linear-to-t from-base-100 via-base-100/60 to-transparent"></div>
 
+        <button
+          onClick={() => navigate(-1)}
+          className=" absolute z-50 flex items-center gap-2 px-4 py-2 font-bold  transition-all duration-300 border rounded-full top-19 left-6 bg-white/10 hover:bg-white/20 backdrop-blur-md border-white/20 hover:scale-105 active:scale-95 cursor-pointer text-sm md:text-xs "
+        >
+          <ArrowLeft size={18} />
+          Go Back
+        </button>
+
         <div className="container absolute bottom-0 z-10 w-full p-6 -translate-x-1/2 left-1/2 md:p-12">
           <div className="mx-auto max-w-7xl">
+
             <div className="flex flex-wrap gap-3 mb-4">
               <span className="font-bold tracking-wide uppercase border-none shadow-lg badge badge-primary badge-lg text-primary-content">
                 {contest.type}

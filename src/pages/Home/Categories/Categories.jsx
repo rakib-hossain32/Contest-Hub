@@ -29,7 +29,7 @@ const Categories = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="bg-base-100 py-10">
+        <section className="bg-base-100 pb-10">
             <div className="container px-4 mx-auto">
                 <SectionHeader
                     title="Explore by Category"

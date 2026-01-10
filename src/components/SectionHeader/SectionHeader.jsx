@@ -1,6 +1,6 @@
 const SectionHeader = ({ title, subtitle }) => {
     return (
-        <div className="relative pb-10 pt-20 lg:pb-18 lg:pt-28 overflow-hidden text-center">
+        <div className="relative pb-10 pt-15 lg:pb-18 lg:pt-20 overflow-hidden text-center">
            
 
             <div className="relative z-10 px-4">
