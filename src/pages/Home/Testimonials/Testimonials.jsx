@@ -86,7 +86,7 @@ const Testimonials = () => {
     };
 
     return (
-        <section className="bg-base-100 py-10 relative overflow-hidden">
+        <section className="bg-base-100 relative overflow-hidden">
             <div className="container px-4 mx-auto">
                 <SectionHeader
                     title="What Our Users Say"

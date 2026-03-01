@@ -63,7 +63,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative overflow-hidden bg-base-100">
+    <section className="relative overflow-hidden bg-base-100 pb-10">
       {/* Decorative Blobs */}
       {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-5%] right-[-5%] w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>

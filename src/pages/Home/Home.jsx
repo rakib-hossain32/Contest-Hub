@@ -9,13 +9,17 @@ import Categories from './Categories/Categories';
 import Testimonials from './Testimonials/Testimonials';
 import Newsletter from './Newsletter/Newsletter';
 import CTA from './CTA/CTA';
+import HowItWorks from './HowItWorks/HowItWorks';
+import ShowcaseGallery from './ShowcaseGallery/ShowcaseGallery';
 
 const Home = () => {
   return (
     <div className="overflow-hidden">
       <Banner />
+      <HowItWorks />
       <Categories />
       <PopularContests />
+      <ShowcaseGallery />
       <Features />
       <WinnerAdvertisement />
       <Stats />
@@ -23,7 +27,7 @@ const Home = () => {
       <Testimonials />
       <FAQ />
       <Newsletter />
-     
+
     </div>
   );
 };
