@@ -13,7 +13,7 @@ import CreatorOverview from "../pages/Dashboards/CreatorDashboard/CreatorOvervie
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // const { user } = useAuth()
-  const {role}=useRole()
+  const { role } = useRole()
   const location = useLocation();
 
   const toggleSidebar = () => {
@@ -24,8 +24,8 @@ const DashboardLayout = () => {
   const isRootDashboard = location.pathname === "/dashboard";
 
   return (
-    <div className="min-h-screen bg-base-100">
-      <div className="flex items-start min-h-screen mx-auto overflow-hidden bg-base-100 max-w-7xl">
+    <div className="h-screen bg-base-100 overflow-hidden">
+      <div className="flex items-start h-screen mx-auto overflow-hidden bg-base-100 max-w-7xl">
         {/* Sidebar */}
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
@@ -40,11 +40,11 @@ const DashboardLayout = () => {
         )}
 
         {/* Main Content */}
-        <section className="flex flex-col flex-1 min-w-0 min-h-screen transition-all duration-300">
+        <section className="flex flex-col flex-1 min-w-0 h-screen transition-all duration-300">
           <Header />
 
-          <main className="flex-1 pl-6 pr-1 overflow-y-auto bg-base-100">
-            <div className="mt-3 animate-fade-in-up">
+          <main className="flex-1 pl-6 pr-1 overflow-y-auto bg-base-100 custom-scrollbar">
+            <div className="mt-3 animate-fade-in-up pb-10">
               {/* ===================================== */}
               {/* ROLE BASED DEFAULT OVERVIEW RENDERING */}
               {/* ===================================== */}

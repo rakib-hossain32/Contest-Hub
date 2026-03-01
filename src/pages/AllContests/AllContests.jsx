@@ -5,7 +5,7 @@ import ContestCard from "../../components/ContestCard/ContestCard";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { Loader } from "../../components/Loader/Loader";
+import { ContestGridSkeleton } from "../../components/Skeleton/ContestSkeleton";
 
 // --- Mock Data (Admin Approved Contests) ---
 // const allContestsData = [
@@ -152,20 +152,8 @@ export default function AllContests() {
 
   if (loading || isLoading) {
     return (
-      <div className="container px-4 py-20 mx-auto">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-            <div
-              key={n}
-              className="flex flex-col gap-4 p-4 border h-80 bg-base-100 rounded-2xl border-base-200"
-            >
-              <div className="w-full h-40 rounded-xl bg-base-200 animate-pulse"></div>
-              <div className="w-3/4 h-6 rounded-lg bg-base-200 animate-pulse"></div>
-              <div className="w-full h-4 rounded-lg bg-base-200 animate-pulse"></div>
-              <div className="w-1/2 h-10 mt-auto rounded-lg bg-base-200 animate-pulse"></div>
-            </div>
-          ))}
-        </div>
+      <div className="container px-4 py-32 mx-auto">
+        <ContestGridSkeleton count={8} />
       </div>
     );
   }

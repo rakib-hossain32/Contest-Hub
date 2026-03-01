@@ -6,7 +6,7 @@ import ContestCard from "../../../components/ContestCard/ContestCard";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { Loader } from "../../../components/Loader/Loader";
+import { ContestGridSkeleton } from "../../../components/Skeleton/ContestSkeleton";
 import SectionHeader from "../../../components/SectionHeader/SectionHeader";
 
 
@@ -27,12 +27,8 @@ export default function PopularContests() {
     },
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
-    <section className="px-4  md:px-6 bg-base-100">
+    <section className="px-4  md:px-6 bg-base-100 mb-20 lg:mb-24">
       <div className="container mx-auto">
         <SectionHeader
           title="Popular Contests"
@@ -40,11 +36,15 @@ export default function PopularContests() {
         />
 
         {/* Contests Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {contests.map((contest, index) => (
-            <ContestCard key={contest._id} contest={contest} index={index} />
-          ))}
-        </div>
+        {isLoading ? (
+          <ContestGridSkeleton count={3} />
+        ) : (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {contests.map((contest, index) => (
+              <ContestCard key={contest._id} contest={contest} index={index} />
+            ))}
+          </div>
+        )}
 
         {/* Show All Button */}
         <div className="mt-12 text-center">
