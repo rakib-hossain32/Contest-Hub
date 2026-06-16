@@ -5,7 +5,7 @@ import { Users, Calendar } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 
 const ContestCard = ({ contest, index, }) => {
-  const {} = {};
+
   const { name, image, participants = 0, description, deadline, type, _id } =
     contest;
   const navigate = useNavigate();

@@ -5,8 +5,6 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  Settings,
-  User,
   X,
   LogIn,
   Crown,
@@ -55,12 +53,9 @@ export default function Navbar() {
   }
 
  
-  const navTextColor = scrolled
-    ? "text-neutral hover:text-primary"
-    : "text-neutral/90 hover:text-primary";
   const glassButtonStyle = scrolled
     ? "text-neutral border-neutral/20 hover:border-primary hover:text-primary hover:bg-primary/5"
-    : "text-neutral border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/50";
+    : "text-white border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/50";
 
   return (
     <motion.nav
@@ -102,22 +97,22 @@ export default function Navbar() {
               : "bg-white/5 border border-white/10 backdrop-blur-sm"
           }`}
         >
-          <NavItem to="/" label="Home" className={navTextColor} />
+          <NavItem to="/" label="Home" scrolled={scrolled} />
           <NavItem
             to="/all-contests"
             label="All Contests"
-            className={navTextColor}
+            scrolled={scrolled}
           />
-          <NavItem to="/events" label="Events" className={navTextColor} />
+          <NavItem to="/events" label="Events" scrolled={scrolled} />
           <NavItem
             to="/success-stories"
             label="Stories"
-            className={navTextColor}
+            scrolled={scrolled}
           />
           <NavItem
             to="/leader-board"
             label="Leaderboard"
-            className={navTextColor}
+            scrolled={scrolled}
           />
         </div>
 
