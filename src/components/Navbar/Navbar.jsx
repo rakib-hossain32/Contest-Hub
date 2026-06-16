@@ -103,7 +103,7 @@ export default function Navbar() {
             label="All Contests"
             scrolled={scrolled}
           />
-          <NavItem to="/events" label="Events" scrolled={scrolled} />
+          {/* <NavItem to="/events" label="Events" scrolled={scrolled} /> */}
           <NavItem
             to="/success-stories"
             label="Stories"
@@ -247,12 +247,12 @@ export default function Navbar() {
                 label="All Contests"
                 onClick={() => setMobileOpen(false)}
               />
-              <MobileNavItem
+              {/* <MobileNavItem
                 to="/events"
                 icon={<Calendar size={20} />}
                 label="Events"
                 onClick={() => setMobileOpen(false)}
-              />
+              /> */}
               <MobileNavItem
                 to="/success-stories"
                 icon={<Sparkles size={20} />}
