@@ -26,6 +26,7 @@ const Login = () => {
       .catch((err) => {
         setLoading(false); // Reset global loading state on error
         toast.error(err.message)
+        console.log(err.message)
       })
   };
 
